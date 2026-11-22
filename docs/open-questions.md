@@ -21,3 +21,9 @@ Kedua vektor dari slide sudah diaktifkan di `tests/test_probability.py`.
 
 - Tamper piksel memakai MSB saat `bit=None`. Koordinat `x` menunjuk kolom dan `y` menunjuk baris. Pada RGB dan MS13, `channel=None` membalik bit di semua kanal piksel, sedangkan indeks kanal yang valid membatasi perubahan ke kanal itu.
 - Tamper blok memakai `(x,y)` sebagai sudut kiri atas dan memotong blok di tepi kanan serta bawah. Setiap elemen pada blok di-XOR dengan mask acak tak nol dari RNG yang diberikan. Koordinat di luar citra dan ukuran kurang dari satu menghasilkan `ValueError`.
+
+## M6 (ditutup 2026-11-22)
+
+- Nama offset thumbnail pada indeks adalah `thumb_off` sesuai tabel skema.
+- C4a membandingkan semua mode termasuk `mle`. Mode PMF memakai chi-square dan Euclidean, sedangkan mode momen memakai Euclidean.
+- C4b memakai histogram RGB 32 bin dengan chi-square untuk P@5 share parsial.
