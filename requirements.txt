@@ -1,0 +1,10 @@
+numpy
+pillow
+tifffile
+fastapi
+uvicorn
+pydantic
+python-multipart
+matplotlib
+seaborn
+python-dotenv

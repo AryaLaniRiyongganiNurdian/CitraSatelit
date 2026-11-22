@@ -1,0 +1,7 @@
+-r requirements.txt
+pytest
+scipy
+scikit-learn
+opencv-python-headless
+httpx
+nbformat
