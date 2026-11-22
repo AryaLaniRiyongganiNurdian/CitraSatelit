@@ -150,3 +150,95 @@ def test_tampering_one_share_pixel_changes_exactly_one_reconstructed_pixel(dtype
     assert reconstructed.dtype == dtype
     np.testing.assert_array_equal(np.argwhere(reconstructed != source), [[y, x]])
     assert abs(int(reconstructed[y, x]) - int(source[y, x])) == 1 << bit
+
+
+
+@pytest.mark.parametrize("dtype,msb", [(np.uint8, 128), (np.uint16, 32768)])
+def test_tamper_pixel_defaults_to_most_significant_bit(dtype, msb):
+    source = np.array([[1, 2, 3], [4, 5, msb]], dtype=dtype)
+    original = source.copy()
+    expected = original.copy()
+    expected[1, 2] = 0
+
+    tampered = sharing.tamper_pixel(source, x=2, y=1)
+
+    assert tampered.dtype == dtype
+    np.testing.assert_array_equal(tampered, expected)
+    np.testing.assert_array_equal(source, original)
+
+
+@pytest.mark.parametrize("dtype,channels", [(np.uint8, 3), (np.uint16, 13)])
+@pytest.mark.parametrize("channel", [None, np.int64(2)])
+def test_tamper_pixel_applies_to_all_channels_or_one_valid_channel(dtype, channels, channel):
+    source = np.arange(2 * 4 * channels, dtype=dtype).reshape(2, 4, channels)
+    original = source.copy()
+    expected = original.copy()
+    selected = slice(None) if channel is None else channel
+    expected[0, 3, selected] ^= 1 << 2
+
+    tampered = sharing.tamper_pixel(source, x=3, y=0, bit=2, channel=channel)
+
+    assert tampered.dtype == dtype
+    np.testing.assert_array_equal(tampered, expected)
+    np.testing.assert_array_equal(source, original)
+
+
+@pytest.mark.parametrize("x,y", [(-1, 0), (3, 0), (0, -1), (0, 2)])
+def test_tamper_pixel_and_block_reject_out_of_bounds_coordinates(x, y):
+    source = np.zeros((2, 3), dtype=np.uint8)
+
+    with pytest.raises(ValueError):
+        sharing.tamper_pixel(source, x, y)
+    with pytest.raises(ValueError):
+        sharing.tamper_block(source, x, y, 1, np.random.default_rng(42))
+
+
+@pytest.mark.parametrize("dtype,invalid_bit", [
+    (np.uint8, -1), (np.uint8, 8), (np.uint16, -1), (np.uint16, 16),
+])
+def test_tamper_pixel_rejects_bits_outside_dtype_width(dtype, invalid_bit):
+    with pytest.raises(ValueError):
+        sharing.tamper_pixel(np.zeros((2, 3), dtype=dtype), 0, 0, bit=invalid_bit)
+
+
+@pytest.mark.parametrize("dtype,channels", [(np.uint8, 3), (np.uint16, 13)])
+@pytest.mark.parametrize("channel", [-1, 13, 1.5])
+def test_tamper_pixel_rejects_invalid_channel(dtype, channels, channel):
+    source = np.zeros((2, 3, channels), dtype=dtype)
+    with pytest.raises(ValueError):
+        sharing.tamper_pixel(source, 0, 0, channel=channel)
+
+
+@pytest.mark.parametrize("size", [0, -1])
+def test_tamper_block_rejects_nonpositive_size(size):
+    source = np.zeros((4, 6), dtype=np.uint8)
+    with pytest.raises(ValueError):
+        sharing.tamper_block(source, 0, 0, size, np.random.default_rng(42))
+
+
+@pytest.mark.parametrize("dtype,shape", [
+    (np.uint8, (4, 6)), (np.uint8, (4, 6, 3)), (np.uint16, (4, 6, 13)),
+])
+@pytest.mark.parametrize("x,y,size,x_end,y_end", [
+    (0, 0, 1, 1, 1),
+    (1, 0, 2, 3, 2),
+    (5, 0, 3, 6, 3),
+    (1, 3, 3, 4, 4),
+    (4, 2, 5, 6, 4),
+])
+def test_tamper_block_clips_at_edges_and_xors_every_element(dtype, shape, x, y, size, x_end, y_end):
+    source = np.arange(np.prod(shape), dtype=dtype).reshape(shape)
+    original = source.copy()
+    expected = original.copy()
+    block = expected[y:y_end, x:x_end]
+    limit = 1 << np.iinfo(dtype).bits
+    block ^= np.random.default_rng(42).integers(1, limit, size=block.shape, dtype=dtype)
+    changed = np.zeros(shape, dtype=bool)
+    changed[y:y_end, x:x_end] = True
+
+    tampered = sharing.tamper_block(source, x, y, size, np.random.default_rng(42))
+
+    assert tampered.dtype == dtype
+    np.testing.assert_array_equal(tampered, expected)
+    np.testing.assert_array_equal(tampered != original, changed)
+    np.testing.assert_array_equal(source, original)

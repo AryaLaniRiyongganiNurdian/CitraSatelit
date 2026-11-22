@@ -17,10 +17,7 @@ Kedua vektor dari slide sudah diaktifkan di `tests/test_probability.py`.
 - Histogram Latihan 12 terkonfirmasi sesuai slide dosen, dengan `Q=(2,6,6,2)`, `C1=(3,5,5,3)`, dan `C2=(8,0,0,8)`. Tes Latihan 12 sudah aktif.
 - kNN memilih jumlah suara terbesar, lalu total jarak terkecil. Jika masih seri, kNN memilih jarak tetangga terdekat terkecil, lalu `cls_idx` terkecil.
 
-## M4 (terbuka) - Bit default dan kanal untuk tamper piksel
+## M4 (ditutup 2026-11-22)
 
-API membolehkan pemanggil mengosongkan `bit`. Bit mana yang harus dibalik saat `bit=None`? Untuk RGB dan multispektral, apakah bit tersebut dibalik di semua kanal pada piksel terpilih, atau bagaimana satu kanal dipilih? Tamper dengan bit eksplisit pada citra satu kanal sudah tercakup.
-
-## M4 (terbuka) - Operasi dan batas tamper blok
-
-Kontrak hanya menetapkan `tamper_block(arr, x, y, size, rng)`. Apa perubahan yang diinginkan dalam blok, misalnya penggantian nilai dengan sampel acak atau XOR dengan mask acak? Apakah `(x,y)` menandai sudut kiri atas, dan bagaimana menangani blok yang melampaui batas citra? Implementasi blok menunggu keputusan ini.
+- Tamper piksel memakai MSB saat `bit=None`. Koordinat `x` menunjuk kolom dan `y` menunjuk baris. Pada RGB dan MS13, `channel=None` membalik bit di semua kanal piksel, sedangkan indeks kanal yang valid membatasi perubahan ke kanal itu.
+- Tamper blok memakai `(x,y)` sebagai sudut kiri atas dan memotong blok di tepi kanan serta bawah. Setiap elemen pada blok di-XOR dengan mask acak tak nol dari RNG yang diberikan. Koordinat di luar citra dan ukuran kurang dari satu menghasilkan `ValueError`.

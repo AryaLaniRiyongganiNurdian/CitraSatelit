@@ -81,20 +81,52 @@ def flip_bits(arr, p, rng, bits) -> np.ndarray:
     return flipped
 
 
-def tamper_pixel(arr, x, y, bit=None) -> np.ndarray:
-    """Flip the specified bit at (x, y) in a single-channel share copy."""
+def _valid_index(value, limit) -> bool:
+    return isinstance(value, (int, np.integer)) and 0 <= value < limit
+
+
+def _tamper_source(arr, x, y) -> np.ndarray:
     source = _unsigned_array(arr)
-    if bit is None or source.ndim == 3:
-        raise NotImplementedError("default bit or multichannel pixel policy is pending")
-    if source.ndim != 2 or not (0 <= x < source.shape[1] and 0 <= y < source.shape[0]):
-        raise ValueError("pixel coordinates must be inside a 2D share")
-    if not 0 <= bit < np.iinfo(source.dtype).bits:
+    if source.ndim not in (2, 3):
+        raise ValueError("expected a 2D or 3D share image")
+
+    height, width = source.shape[:2]
+    if not (_valid_index(x, width) and _valid_index(y, height)):
+        raise ValueError("pixel coordinates must be inside the share image")
+    return source
+
+
+def tamper_pixel(arr, x, y, bit=None, channel=None) -> np.ndarray:
+    """Flip one bit at (x, y), using the MSB and all channels by default."""
+    source = _tamper_source(arr, x, y)
+    bits = np.iinfo(source.dtype).bits
+    if bit is None:
+        bit = bits - 1
+    if not _valid_index(bit, bits):
         raise ValueError("bit must be within the array dtype's bit width")
 
+    pixel = (int(y), int(x))
+    if channel is not None:
+        if source.ndim != 3 or not _valid_index(channel, source.shape[2]):
+            raise ValueError("channel must be an index in a 3D share image")
+        pixel += (int(channel),)
+
     tampered = source.copy()
-    tampered[y, x] ^= source.dtype.type(1 << bit)
+    tampered[pixel] ^= source.dtype.type(1 << int(bit))
     return tampered
 
 
 def tamper_block(arr, x, y, size, rng) -> np.ndarray:
-    raise NotImplementedError("block policy is pending; see docs/open-questions.md")
+    """XOR a clipped block at (x, y) with a nonzero mask per element."""
+    source = _tamper_source(arr, x, y)
+    if not isinstance(size, (int, np.integer)) or size < 1:
+        raise ValueError("size must be a positive integer")
+
+    height, width = source.shape[:2]
+    x, y, size = int(x), int(y), int(size)
+    x_end, y_end = min(width, x + size), min(height, y + size)
+    tampered = source.copy()
+    block = tampered[y:y_end, x:x_end]
+    levels = 1 << np.iinfo(source.dtype).bits
+    block ^= rng.integers(1, levels, size=block.shape, dtype=source.dtype)
+    return tampered
