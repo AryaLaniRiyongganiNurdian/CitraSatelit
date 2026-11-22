@@ -12,12 +12,7 @@
 
 Kedua vektor dari slide sudah diaktifkan di `tests/test_probability.py`.
 
-## M3 (terbuka) - Histogram asli Latihan 12
+## M3 (ditutup 2026-11-22)
 
-Rencana M3 mencantumkan jarak, irisan, serta momen untuk Q, C1, dan C2, tetapi tidak menyertakan histogram masukan. Jika setiap histogram memiliki empat level dan 16 piksel, kandidat yang memenuhi semua target adalah Q=(2,6,6,2), C1=(3,5,5,3), dan C2=(8,0,0,8).
-
-Apakah ketiga histogram itu persis sama dengan slide? Tes Latihan 12 menunggu konfirmasi input.
-
-## M3 (terbuka) - Seri penuh pada voting kNN
-
-Kontrak memecah seri jumlah suara dengan total jarak terkecil. Jika total jarak juga identik, kelas mana yang harus dipilih? Implementasi menghentikan prediksi untuk kasus itu sambil menunggu aturan lanjutan.
+- Histogram Latihan 12 terkonfirmasi sesuai slide dosen, dengan `Q=(2,6,6,2)`, `C1=(3,5,5,3)`, dan `C2=(8,0,0,8)`. Tes Latihan 12 sudah aktif.
+- kNN memilih jumlah suara terbesar, lalu total jarak terkecil. Jika masih seri, kNN memilih jarak tetangga terdekat terkecil, lalu `cls_idx` terkecil.

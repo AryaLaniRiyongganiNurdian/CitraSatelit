@@ -161,10 +161,8 @@ def test_slide_qa_and_qb_distances_and_a_ranks_before_b():
         np.testing.assert_allclose(distances, expected[::-1], rtol=0, atol=tolerance)
 
 
-@pytest.mark.parametrize("counts", [
-    pytest.param(None, marks=pytest.mark.skip(reason="Histogram asli Latihan 12 belum tersedia")),
-])
-def test_slide_exercise_12_q_c1_c2(counts):
+def test_slide_exercise_12_q_c1_c2():
+    counts = ((2, 6, 6, 2), (3, 5, 5, 3), (8, 0, 0, 8))
     q, c1, c2 = map(counts_to_pmf, counts)
     database = np.stack([c1, c2])
 
@@ -215,6 +213,14 @@ def test_precision_at_k_is_the_fraction_of_same_class_hits():
 def test_knn_predict_uses_votes_then_total_distance():
     assert cbir.knn_predict([1, 3, 3], [0.1, 0.5, 0.6]) == 3
     assert cbir.knn_predict([1, 3, 3, 1], [0.1, 0.2, 0.3, 0.9]) == 3
+
+
+@pytest.mark.parametrize("labels,distances,winner", [
+    pytest.param([3, 1, 1, 3], [0.125, 0.25, 0.5, 0.625], 3, id="nearest-neighbor"),
+    pytest.param([3, 1, 3, 1], [0.125, 0.125, 0.625, 0.625], 1, id="lowest-class-index"),
+])
+def test_knn_predict_breaks_full_ties(labels, distances, winner):
+    assert cbir.knn_predict(labels, distances) == winner
 
 
 def test_confusion_matrix_rows_are_true_classes_and_columns_are_predictions():

@@ -194,7 +194,7 @@ def precision_at_k(query_class, neighbor_classes) -> float:
 
 
 def knn_predict(neighbor_classes, distances) -> int:
-    """Vote among the selected neighbors, using total distance to break vote ties."""
+    """Vote by class, then rank ties by total distance, closest distance, and class index."""
     labels = np.asarray(neighbor_classes)
     distances = np.asarray(distances, dtype=np.float64)
     if labels.ndim != 1 or labels.size == 0 or labels.shape != distances.shape:
@@ -202,11 +202,11 @@ def knn_predict(neighbor_classes, distances) -> int:
 
     classes, votes = np.unique(labels, return_counts=True)
     contenders = classes[votes == votes.max()]
-    totals = np.array([distances[labels == label].sum() for label in contenders])
-    winners = contenders[totals == totals.min()]
-    if len(winners) != 1:
-        raise ValueError("kNN votes and total distances are tied; see docs/open-questions.md")
-    return int(winners[0])
+    groups = [distances[labels == label] for label in contenders]
+    totals = [group.sum() for group in groups]
+    closest = [group.min() for group in groups]
+    ranking = np.lexsort((contenders, closest, totals))
+    return int(contenders[ranking[0]])
 
 
 def confusion_matrix(y_true, y_pred, n_classes) -> np.ndarray:
