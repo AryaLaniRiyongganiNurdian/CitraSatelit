@@ -12,23 +12,17 @@ def test_slide_conditional_probability():
         probability.cond_prob(0, 0)
 
 
-@pytest.mark.parametrize("priors,likelihoods,evidence,posterior", [
-    pytest.param([0.8, 0.2], [0.01, 0.05], 0.018, 0.5556, id="produk-rusak"),
-    pytest.param(
-        None, None, 0.08, 0.75, id="transjakarta",
-        marks=pytest.mark.skip(reason="Input vektor dari slide belum tersedia"),
-    ),
-    pytest.param(
-        None, None, 0.038, 0.6316, id="gateway",
-        marks=pytest.mark.skip(reason="Input vektor dari slide belum tersedia"),
-    ),
+@pytest.mark.parametrize("priors,likelihoods,evidence,target_idx,posterior", [
+    pytest.param([0.8, 0.2], [0.01, 0.05], 0.018, 1, 0.010 / 0.018, id="produk-rusak"),
+    pytest.param([0.60, 0.40], [0.10, 0.05], 0.08, 0, 0.75, id="transjakarta"),
+    pytest.param([0.70, 0.30], [0.02, 0.08], 0.038, 1, 0.024 / 0.038, id="gateway"),
 ])
-def test_slide_bayes_examples(priors, likelihoods, evidence, posterior):
+def test_slide_bayes_examples(priors, likelihoods, evidence, target_idx, posterior):
     assert probability.total_prob(priors, likelihoods) == pytest.approx(evidence, abs=1e-9)
     result, result_evidence = probability.bayes_posterior(priors, likelihoods)
     assert result_evidence == pytest.approx(evidence, abs=1e-9)
     assert result.sum() == pytest.approx(1, abs=1e-9)
-    assert round(float(result[1]), 4) == pytest.approx(posterior, abs=1e-9)
+    assert result[target_idx] == pytest.approx(posterior, abs=1e-9)
 
 
 def test_discrete_bayes_joint_counts_and_laplace_smoothing():
