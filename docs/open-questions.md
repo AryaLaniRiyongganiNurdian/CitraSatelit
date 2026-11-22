@@ -27,3 +27,11 @@ Kedua vektor dari slide sudah diaktifkan di `tests/test_probability.py`.
 - Nama offset thumbnail pada indeks adalah `thumb_off` sesuai tabel skema.
 - C4a membandingkan semua mode termasuk `mle`. Mode PMF memakai chi-square dan Euclidean, sedangkan mode momen memakai Euclidean.
 - C4b memakai histogram RGB 32 bin dengan chi-square untuk P@5 share parsial.
+
+## M7 (ditutup 2026-11-22) - Akses TIFF mentah di mode Space
+
+Citra indeks tanpa TIFF galeri tetap dapat dicari dan memakai fitur yang sudah dihitung. Endpoint yang memerlukan piksel TIFF mentah mengembalikan `MODE_REQUIRES_MULTISPECTRAL` saat piksel tersebut tidak tersedia.
+
+## M7 (ditutup 2026-11-22) - Band referensi untuk rekonstruksi dari unggahan
+
+Formulir `reconstruct-upload` tidak memiliki `band_index`. Untuk share satu band, `metrics` bernilai `null` meskipun `original_image_id` diberikan. Rekonstruksi XOR dan pratinjau tetap tersedia.

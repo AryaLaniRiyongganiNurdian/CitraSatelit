@@ -1,0 +1,6681 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "CitraSatelit API",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/health": {
+      "get": {
+        "summary": "Health",
+        "operationId": "health_api_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Content Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/meta": {
+      "get": {
+        "summary": "Meta",
+        "operationId": "meta_api_meta_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MetaResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Content Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/images": {
+      "get": {
+        "summary": "Images",
+        "operationId": "images_api_images_get",
+        "parameters": [
+          {
+            "name": "cls",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "AnnualCrop",
+                    "Forest",
+                    "HerbaceousVegetation",
+                    "Highway",
+                    "Industrial",
+                    "Pasture",
+                    "PermanentCrop",
+                    "Residential",
+                    "River",
+                    "SeaLake"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cls"
+            }
+          },
+          {
+            "name": "split",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "train",
+                    "test"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Split"
+            }
+          },
+          {
+            "name": "gallery_only",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": true,
+              "title": "Gallery Only"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImagesListResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            },
+            "description": "Unsupported Media Type"
+          }
+        }
+      }
+    },
+    "/api/images/{id}/thumb": {
+      "get": {
+        "summary": "Thumb",
+        "operationId": "thumb_api_images__id__thumb_get",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "image/jpeg": {},
+              "image/png": {}
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            },
+            "description": "Unsupported Media Type"
+          }
+        }
+      }
+    },
+    "/api/images/{id}/preview": {
+      "get": {
+        "summary": "Image Preview",
+        "operationId": "image_preview_api_images__id__preview_get",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "view",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "rgb",
+                "synth_rgb",
+                "ndvi",
+                "ndwi",
+                "band"
+              ],
+              "type": "string",
+              "default": "rgb",
+              "title": "View"
+            }
+          },
+          {
+            "name": "band",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 12,
+              "minimum": 0,
+              "default": 0,
+              "title": "Band"
+            }
+          },
+          {
+            "name": "scale",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 4,
+              "title": "Scale"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImagePreview"
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            },
+            "description": "Unsupported Media Type"
+          }
+        }
+      }
+    },
+    "/api/images/upload": {
+      "post": {
+        "summary": "Upload",
+        "operationId": "upload_api_images_upload_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_upload_api_images_upload_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImageMeta"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Content Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cbir/features": {
+      "post": {
+        "summary": "Cbir Features",
+        "operationId": "cbir_features_api_cbir_features_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FeaturesRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeaturesResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Content Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cbir/search": {
+      "post": {
+        "summary": "Search",
+        "operationId": "search_api_cbir_search_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Content Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cbir/bayes": {
+      "post": {
+        "summary": "Bayes",
+        "operationId": "bayes_api_cbir_bayes_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BayesRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BayesResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Content Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cbir/gnb": {
+      "post": {
+        "summary": "Gnb",
+        "operationId": "gnb_api_cbir_gnb_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GnbRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GnbResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Content Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/cbir/evaluate": {
+      "get": {
+        "summary": "Evaluate",
+        "operationId": "evaluate_api_cbir_evaluate_get",
+        "parameters": [
+          {
+            "name": "mode",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "enum": [
+                "gray",
+                "rgb",
+                "hsv",
+                "grid2",
+                "grid4",
+                "mle",
+                "ms13",
+                "ndvi_ndwi",
+                "ms13_idx",
+                "ms_mle"
+              ],
+              "type": "string",
+              "title": "Mode"
+            }
+          },
+          {
+            "name": "metric",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "enum": [
+                "euclid",
+                "chi2",
+                "intersection"
+              ],
+              "type": "string",
+              "title": "Metric"
+            }
+          },
+          {
+            "name": "bins",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 32,
+              "title": "Bins"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvaluateResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            },
+            "description": "Unsupported Media Type"
+          }
+        }
+      }
+    },
+    "/api/sharing/split": {
+      "post": {
+        "summary": "Split",
+        "operationId": "split_api_sharing_split_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SplitRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SplitResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Content Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sharing/{session_id}/share/{index}/download": {
+      "get": {
+        "summary": "Download",
+        "operationId": "download_api_sharing__session_id__share__index__download_get",
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Session Id"
+            }
+          },
+          {
+            "name": "index",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Index"
+            }
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "png",
+              "title": "Format"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "image/png": {},
+              "application/octet-stream": {}
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            },
+            "description": "Unsupported Media Type"
+          }
+        }
+      }
+    },
+    "/api/sharing/reconstruct": {
+      "post": {
+        "summary": "Reconstruct",
+        "operationId": "reconstruct_api_sharing_reconstruct_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReconstructRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReconstructResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Content Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sharing/reconstruct-upload": {
+      "post": {
+        "summary": "Reconstruct Upload",
+        "operationId": "reconstruct_upload_api_sharing_reconstruct_upload_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_reconstruct_upload_api_sharing_reconstruct_upload_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReconstructResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Content Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sharing/tamper": {
+      "post": {
+        "summary": "Tamper",
+        "operationId": "tamper_api_sharing_tamper_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TamperRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TamperResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Content Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sharing/security": {
+      "post": {
+        "summary": "Security",
+        "operationId": "security_api_sharing_security_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SecurityRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SecurityResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Content Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sharing/bitflip": {
+      "post": {
+        "summary": "Bitflip",
+        "operationId": "bitflip_api_sharing_bitflip_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BitflipRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BitflipResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Content Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sharing/attacks/reuse-key": {
+      "post": {
+        "summary": "Reuse",
+        "operationId": "reuse_api_sharing_attacks_reuse_key_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReuseKeyRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReuseKeyResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Content Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sharing/attacks/raid5": {
+      "post": {
+        "summary": "Raid",
+        "operationId": "raid_api_sharing_attacks_raid5_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Raid5Request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Raid5Response"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Content Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/boolean/truth-table": {
+      "post": {
+        "summary": "Truth",
+        "operationId": "truth_api_boolean_truth_table_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TruthTableRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TruthTableResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Content Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/boolean/prove": {
+      "post": {
+        "summary": "Prove",
+        "operationId": "prove_api_boolean_prove_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProveRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProveResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Content Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/boolean/xor-gate": {
+      "post": {
+        "summary": "Xor Gate",
+        "operationId": "xor_gate_api_boolean_xor_gate_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/XorGateResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Content Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/boolean/kmap": {
+      "post": {
+        "summary": "Kmap",
+        "operationId": "kmap_api_boolean_kmap_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KMapRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KMapResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Content Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/experiments": {
+      "get": {
+        "summary": "List Experiments",
+        "operationId": "list_experiments_api_experiments_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ExperimentSummary"
+                  },
+                  "type": "array",
+                  "title": "Response List Experiments Api Experiments Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Content Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/experiments/{id}": {
+      "get": {
+        "summary": "Experiment",
+        "operationId": "experiment_api_experiments__id__get",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "enum": [
+                "C1",
+                "C2",
+                "C3",
+                "C4a",
+                "C4b",
+                "C4c"
+              ],
+              "type": "string",
+              "title": "Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExperimentResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            },
+            "description": "Unsupported Media Type"
+          }
+        }
+      }
+    },
+    "/api/live/cbir": {
+      "post": {
+        "summary": "Live Cbir",
+        "operationId": "live_cbir_api_live_cbir_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LiveCbirRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvaluateResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Content Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/live/bins": {
+      "post": {
+        "summary": "Live Bins",
+        "operationId": "live_bins_api_live_bins_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LiveBinsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LiveBinsResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Content Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/inspector/pixel-xor": {
+      "post": {
+        "summary": "Pixel Xor",
+        "operationId": "pixel_xor_api_inspector_pixel_xor_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PixelXorRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PixelXorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Content Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ApiErrorBody": {
+        "properties": {
+          "error": {
+            "$ref": "#/components/schemas/ApiErrorBodyError"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "error"
+        ],
+        "title": "ApiErrorBody"
+      },
+      "ApiErrorBodyError": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "enum": [
+              "IMAGE_NOT_FOUND",
+              "SESSION_NOT_FOUND",
+              "NOT_PRECOMPUTED",
+              "INVALID_PARAM",
+              "MODE_REQUIRES_MULTISPECTRAL",
+              "TIF_NOT_13_BANDS",
+              "EXPRESSION_PARSE_ERROR",
+              "SHAPE_MISMATCH",
+              "LIVE_LIMIT_EXCEEDED",
+              "FORMAT_NOT_SUPPORTED",
+              "UPLOAD_TOO_LARGE",
+              "UNSUPPORTED_FILE",
+              "INTERNAL_ERROR"
+            ],
+            "title": "Code"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "details": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Details"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "code",
+          "message"
+        ],
+        "title": "ApiErrorBodyError"
+      },
+      "BayesClassRow": {
+        "properties": {
+          "cls": {
+            "type": "string",
+            "enum": [
+              "AnnualCrop",
+              "Forest",
+              "HerbaceousVegetation",
+              "Highway",
+              "Industrial",
+              "Pasture",
+              "PermanentCrop",
+              "Residential",
+              "River",
+              "SeaLake"
+            ],
+            "title": "Cls"
+          },
+          "prior": {
+            "type": "number",
+            "title": "Prior"
+          },
+          "likelihood": {
+            "type": "number",
+            "title": "Likelihood"
+          },
+          "joint": {
+            "type": "number",
+            "title": "Joint"
+          },
+          "posterior": {
+            "type": "number",
+            "title": "Posterior"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "cls",
+          "prior",
+          "likelihood",
+          "joint",
+          "posterior"
+        ],
+        "title": "BayesClassRow"
+      },
+      "BayesRequest": {
+        "properties": {
+          "image_id": {
+            "type": "string",
+            "title": "Image Id"
+          },
+          "evidence": {
+            "type": "string",
+            "enum": [
+              "mean_gray",
+              "mean_ndvi",
+              "mean_ndwi"
+            ],
+            "title": "Evidence"
+          },
+          "levels": {
+            "type": "integer",
+            "title": "Levels"
+          },
+          "alpha": {
+            "type": "number",
+            "title": "Alpha"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "image_id",
+          "evidence"
+        ],
+        "title": "BayesRequest"
+      },
+      "BayesResponse": {
+        "properties": {
+          "image": {
+            "$ref": "#/components/schemas/ImageMeta"
+          },
+          "evidence": {
+            "type": "string",
+            "enum": [
+              "mean_gray",
+              "mean_ndvi",
+              "mean_ndwi"
+            ],
+            "title": "Evidence"
+          },
+          "levels": {
+            "type": "integer",
+            "title": "Levels"
+          },
+          "evidence_value": {
+            "type": "number",
+            "title": "Evidence Value"
+          },
+          "evidence_bin": {
+            "type": "integer",
+            "title": "Evidence Bin"
+          },
+          "evidence_total": {
+            "type": "number",
+            "title": "Evidence Total"
+          },
+          "rows": {
+            "items": {
+              "$ref": "#/components/schemas/BayesClassRow"
+            },
+            "type": "array",
+            "title": "Rows"
+          },
+          "predicted": {
+            "type": "string",
+            "enum": [
+              "AnnualCrop",
+              "Forest",
+              "HerbaceousVegetation",
+              "Highway",
+              "Industrial",
+              "Pasture",
+              "PermanentCrop",
+              "Residential",
+              "River",
+              "SeaLake"
+            ],
+            "title": "Predicted"
+          },
+          "conditional_example": {
+            "$ref": "#/components/schemas/BayesResponseConditionalExample"
+          },
+          "inspector": {
+            "$ref": "#/components/schemas/Inspector"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "image",
+          "evidence",
+          "levels",
+          "evidence_value",
+          "evidence_bin",
+          "evidence_total",
+          "rows",
+          "predicted",
+          "conditional_example",
+          "inspector"
+        ],
+        "title": "BayesResponse"
+      },
+      "BayesResponseConditionalExample": {
+        "properties": {
+          "event_a": {
+            "type": "string",
+            "title": "Event A"
+          },
+          "event_b": {
+            "type": "string",
+            "title": "Event B"
+          },
+          "p_a_and_b": {
+            "type": "number",
+            "title": "P A And B"
+          },
+          "p_b": {
+            "type": "number",
+            "title": "P B"
+          },
+          "p_a_given_b": {
+            "type": "number",
+            "title": "P A Given B"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "event_a",
+          "event_b",
+          "p_a_and_b",
+          "p_b",
+          "p_a_given_b"
+        ],
+        "title": "BayesResponseConditionalExample"
+      },
+      "BitflipPoint": {
+        "properties": {
+          "p": {
+            "type": "number",
+            "title": "P"
+          },
+          "p_effective": {
+            "type": "number",
+            "title": "P Effective"
+          },
+          "empirical_pixel_error": {
+            "type": "number",
+            "title": "Empirical Pixel Error"
+          },
+          "empirical_std": {
+            "type": "number",
+            "title": "Empirical Std"
+          },
+          "theory_pixel_error": {
+            "type": "number",
+            "title": "Theory Pixel Error"
+          },
+          "abs_diff": {
+            "type": "number",
+            "title": "Abs Diff"
+          },
+          "mean_wrong_pixels": {
+            "type": "number",
+            "title": "Mean Wrong Pixels"
+          },
+          "n_pixels": {
+            "type": "integer",
+            "title": "N Pixels"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "p",
+          "p_effective",
+          "empirical_pixel_error",
+          "empirical_std",
+          "theory_pixel_error",
+          "abs_diff",
+          "mean_wrong_pixels",
+          "n_pixels"
+        ],
+        "title": "BitflipPoint"
+      },
+      "BitflipRequest": {
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "title": "Session Id"
+          },
+          "p_list": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "title": "P List"
+          },
+          "trials": {
+            "type": "integer",
+            "title": "Trials"
+          },
+          "corrupted_shares": {
+            "type": "integer",
+            "title": "Corrupted Shares"
+          },
+          "p_focus": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "P Focus"
+          },
+          "seed": {
+            "type": "integer",
+            "title": "Seed"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "session_id",
+          "p_list"
+        ],
+        "title": "BitflipRequest"
+      },
+      "BitflipResponse": {
+        "properties": {
+          "bits": {
+            "type": "integer",
+            "enum": [
+              8,
+              16
+            ],
+            "title": "Bits"
+          },
+          "n_pixels": {
+            "type": "integer",
+            "title": "N Pixels"
+          },
+          "points": {
+            "items": {
+              "$ref": "#/components/schemas/BitflipPoint"
+            },
+            "type": "array",
+            "title": "Points"
+          },
+          "theory_curves": {
+            "items": {
+              "$ref": "#/components/schemas/BitflipResponseTheoryCurves"
+            },
+            "type": "array",
+            "title": "Theory Curves"
+          },
+          "geometric": {
+            "$ref": "#/components/schemas/BitflipResponseGeometric"
+          },
+          "chebyshev": {
+            "$ref": "#/components/schemas/BitflipResponseChebyshev"
+          },
+          "chart": {
+            "$ref": "#/components/schemas/ChartSpec"
+          },
+          "inspector": {
+            "$ref": "#/components/schemas/Inspector"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "bits",
+          "n_pixels",
+          "points",
+          "theory_curves",
+          "geometric",
+          "chebyshev",
+          "chart",
+          "inspector"
+        ],
+        "title": "BitflipResponse"
+      },
+      "BitflipResponseChebyshev": {
+        "properties": {
+          "p_focus": {
+            "type": "number",
+            "title": "P Focus"
+          },
+          "mu": {
+            "type": "number",
+            "title": "Mu"
+          },
+          "sigma": {
+            "type": "number",
+            "title": "Sigma"
+          },
+          "rows": {
+            "items": {
+              "$ref": "#/components/schemas/BitflipResponseChebyshevRows"
+            },
+            "type": "array",
+            "title": "Rows"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "p_focus",
+          "mu",
+          "sigma",
+          "rows"
+        ],
+        "title": "BitflipResponseChebyshev"
+      },
+      "BitflipResponseChebyshevRows": {
+        "properties": {
+          "k_sigma": {
+            "type": "integer",
+            "title": "K Sigma"
+          },
+          "r": {
+            "type": "number",
+            "title": "R"
+          },
+          "bound": {
+            "type": "number",
+            "title": "Bound"
+          },
+          "empirical_tail": {
+            "type": "number",
+            "title": "Empirical Tail"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "k_sigma",
+          "r",
+          "bound",
+          "empirical_tail"
+        ],
+        "title": "BitflipResponseChebyshevRows"
+      },
+      "BitflipResponseGeometric": {
+        "properties": {
+          "p_wrong": {
+            "type": "number",
+            "title": "P Wrong"
+          },
+          "k": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "K"
+          },
+          "pmf_theory": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "title": "Pmf Theory"
+          },
+          "pmf_empirical": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "title": "Pmf Empirical"
+          },
+          "mean_theory": {
+            "type": "number",
+            "title": "Mean Theory"
+          },
+          "mean_empirical": {
+            "type": "number",
+            "title": "Mean Empirical"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "p_wrong",
+          "k",
+          "pmf_theory",
+          "pmf_empirical",
+          "mean_theory",
+          "mean_empirical"
+        ],
+        "title": "BitflipResponseGeometric"
+      },
+      "BitflipResponseTheoryCurves": {
+        "properties": {
+          "bits": {
+            "type": "integer",
+            "title": "Bits"
+          },
+          "p": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "title": "P"
+          },
+          "error": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "title": "Error"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "bits",
+          "p",
+          "error"
+        ],
+        "title": "BitflipResponseTheoryCurves"
+      },
+      "Body_reconstruct_upload_api_sharing_reconstruct_upload_post": {
+        "properties": {
+          "files": {
+            "items": {
+              "type": "string",
+              "contentMediaType": "application/octet-stream"
+            },
+            "type": "array",
+            "title": "Files"
+          },
+          "original_image_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Original Image Id"
+          },
+          "band_mode": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "gray",
+                  "rgb",
+                  "band",
+                  "ms13"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Band Mode"
+          }
+        },
+        "type": "object",
+        "required": [
+          "files"
+        ],
+        "title": "Body_reconstruct_upload_api_sharing_reconstruct_upload_post"
+      },
+      "Body_upload_api_images_upload_post": {
+        "properties": {
+          "file": {
+            "type": "string",
+            "contentMediaType": "application/octet-stream",
+            "title": "File"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file"
+        ],
+        "title": "Body_upload_api_images_upload_post"
+      },
+      "ChannelStats": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "counts": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Counts"
+          },
+          "pmf": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "title": "Pmf"
+          },
+          "moments": {
+            "$ref": "#/components/schemas/Moments"
+          },
+          "mle": {
+            "$ref": "#/components/schemas/ChannelStatsMle"
+          },
+          "mgf": {
+            "$ref": "#/components/schemas/MgfCheck"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "name",
+          "counts",
+          "pmf",
+          "moments",
+          "mle",
+          "mgf"
+        ],
+        "title": "ChannelStats"
+      },
+      "ChannelStatsMle": {
+        "properties": {
+          "mu_hat": {
+            "type": "number",
+            "title": "Mu Hat"
+          },
+          "sigma2_hat": {
+            "type": "number",
+            "title": "Sigma2 Hat"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "mu_hat",
+          "sigma2_hat"
+        ],
+        "title": "ChannelStatsMle"
+      },
+      "ChartSeries": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "y": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "title": "Y"
+          },
+          "x": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "title": "X"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "name",
+          "y"
+        ],
+        "title": "ChartSeries"
+      },
+      "ChartSpec": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "bar",
+              "line",
+              "scatter",
+              "heatmap"
+            ],
+            "title": "Kind"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "x": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "X"
+          },
+          "series": {
+            "items": {
+              "$ref": "#/components/schemas/ChartSeries"
+            },
+            "type": "array",
+            "title": "Series"
+          },
+          "z": {
+            "items": {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            "type": "array",
+            "title": "Z"
+          },
+          "x_labels": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "X Labels"
+          },
+          "y_labels": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Y Labels"
+          },
+          "x_label": {
+            "type": "string",
+            "title": "X Label"
+          },
+          "y_label": {
+            "type": "string",
+            "title": "Y Label"
+          },
+          "log_x": {
+            "type": "boolean",
+            "title": "Log X"
+          },
+          "log_y": {
+            "type": "boolean",
+            "title": "Log Y"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "kind",
+          "title"
+        ],
+        "title": "ChartSpec"
+      },
+      "Chi2Test": {
+        "properties": {
+          "stat": {
+            "type": "number",
+            "title": "Stat"
+          },
+          "df": {
+            "type": "integer",
+            "title": "Df"
+          },
+          "p_value": {
+            "type": "number",
+            "title": "P Value"
+          },
+          "uniform_at_alpha_0_05": {
+            "type": "boolean",
+            "title": "Uniform At Alpha 0 05"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "stat",
+          "df",
+          "p_value",
+          "uniform_at_alpha_0_05"
+        ],
+        "title": "Chi2Test"
+      },
+      "Circuit": {
+        "properties": {
+          "nodes": {
+            "items": {
+              "$ref": "#/components/schemas/CircuitNode"
+            },
+            "type": "array",
+            "title": "Nodes"
+          },
+          "edges": {
+            "items": {
+              "$ref": "#/components/schemas/CircuitEdge"
+            },
+            "type": "array",
+            "title": "Edges"
+          },
+          "output_id": {
+            "type": "string",
+            "title": "Output Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "nodes",
+          "edges",
+          "output_id"
+        ],
+        "title": "Circuit"
+      },
+      "CircuitEdge": {
+        "properties": {
+          "from": {
+            "type": "string",
+            "title": "From"
+          },
+          "to": {
+            "type": "string",
+            "title": "To"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "from",
+          "to"
+        ],
+        "title": "CircuitEdge"
+      },
+      "CircuitNode": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "input",
+              "not",
+              "and",
+              "or",
+              "xor"
+            ],
+            "title": "Type"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "label"
+        ],
+        "title": "CircuitNode"
+      },
+      "EvaluateResponse": {
+        "properties": {
+          "mode": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "gray",
+                  "rgb",
+                  "hsv",
+                  "grid2",
+                  "grid4",
+                  "mle",
+                  "ms13",
+                  "ndvi_ndwi",
+                  "ms13_idx",
+                  "ms_mle"
+                ]
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Mode"
+          },
+          "bins": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "enum": [
+                  8,
+                  16,
+                  32,
+                  64,
+                  128,
+                  256
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bins"
+          },
+          "metric": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "euclid",
+                  "chi2",
+                  "intersection"
+                ]
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Metric"
+          },
+          "protocol": {
+            "$ref": "#/components/schemas/EvaluateResponseProtocol"
+          },
+          "classes": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "AnnualCrop",
+                "Forest",
+                "HerbaceousVegetation",
+                "Highway",
+                "Industrial",
+                "Pasture",
+                "PermanentCrop",
+                "Residential",
+                "River",
+                "SeaLake"
+              ]
+            },
+            "type": "array",
+            "title": "Classes"
+          },
+          "per_class": {
+            "items": {
+              "$ref": "#/components/schemas/EvaluateResponsePerClass"
+            },
+            "type": "array",
+            "title": "Per Class"
+          },
+          "macro_precision_at_k": {
+            "type": "number",
+            "title": "Macro Precision At K"
+          },
+          "knn_accuracy": {
+            "type": "number",
+            "title": "Knn Accuracy"
+          },
+          "confusion_matrix": {
+            "items": {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            },
+            "type": "array",
+            "title": "Confusion Matrix"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "precomputed",
+              "live"
+            ],
+            "title": "Source"
+          },
+          "elapsed_ms": {
+            "type": "number",
+            "title": "Elapsed Ms"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "mode",
+          "bins",
+          "metric",
+          "protocol",
+          "classes",
+          "per_class",
+          "macro_precision_at_k",
+          "knn_accuracy",
+          "confusion_matrix",
+          "source"
+        ],
+        "title": "EvaluateResponse"
+      },
+      "EvaluateResponsePerClass": {
+        "properties": {
+          "cls": {
+            "type": "string",
+            "enum": [
+              "AnnualCrop",
+              "Forest",
+              "HerbaceousVegetation",
+              "Highway",
+              "Industrial",
+              "Pasture",
+              "PermanentCrop",
+              "Residential",
+              "River",
+              "SeaLake"
+            ],
+            "title": "Cls"
+          },
+          "n_queries": {
+            "type": "integer",
+            "title": "N Queries"
+          },
+          "precision_at_k": {
+            "type": "number",
+            "title": "Precision At K"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "cls",
+          "n_queries",
+          "precision_at_k"
+        ],
+        "title": "EvaluateResponsePerClass"
+      },
+      "EvaluateResponseProtocol": {
+        "properties": {
+          "n_queries": {
+            "type": "integer",
+            "title": "N Queries"
+          },
+          "db_size": {
+            "type": "integer",
+            "title": "Db Size"
+          },
+          "queries_per_class": {
+            "type": "integer",
+            "title": "Queries Per Class"
+          },
+          "k": {
+            "type": "integer",
+            "title": "K"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "n_queries",
+          "db_size",
+          "queries_per_class",
+          "k"
+        ],
+        "title": "EvaluateResponseProtocol"
+      },
+      "ExperimentResult": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "enum": [
+              "C1",
+              "C2",
+              "C3",
+              "C4a",
+              "C4b",
+              "C4c"
+            ],
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "generated_at": {
+            "type": "string",
+            "title": "Generated At"
+          },
+          "runtime_s": {
+            "type": "number",
+            "title": "Runtime S"
+          },
+          "params": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Params"
+          },
+          "dataset": {
+            "$ref": "#/components/schemas/ExperimentResultDataset"
+          },
+          "tables": {
+            "items": {
+              "$ref": "#/components/schemas/MathTable"
+            },
+            "type": "array",
+            "title": "Tables"
+          },
+          "charts": {
+            "items": {
+              "$ref": "#/components/schemas/ChartSpec"
+            },
+            "type": "array",
+            "title": "Charts"
+          },
+          "findings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Findings"
+          },
+          "analysis_md": {
+            "type": "string",
+            "title": "Analysis Md"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "description",
+          "generated_at",
+          "runtime_s",
+          "params",
+          "dataset",
+          "tables",
+          "charts",
+          "findings",
+          "analysis_md"
+        ],
+        "title": "ExperimentResult"
+      },
+      "ExperimentResultDataset": {
+        "properties": {
+          "n_images": {
+            "type": "integer",
+            "title": "N Images"
+          },
+          "n_queries": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "N Queries"
+          },
+          "note": {
+            "type": "string",
+            "title": "Note"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "n_images",
+          "n_queries",
+          "note"
+        ],
+        "title": "ExperimentResultDataset"
+      },
+      "ExperimentSummary": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "enum": [
+              "C1",
+              "C2",
+              "C3",
+              "C4a",
+              "C4b",
+              "C4c"
+            ],
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "generated_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Generated At"
+          },
+          "has_results": {
+            "type": "boolean",
+            "title": "Has Results"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "description",
+          "generated_at",
+          "has_results"
+        ],
+        "title": "ExperimentSummary"
+      },
+      "FeaturesRequest": {
+        "properties": {
+          "image_id": {
+            "type": "string",
+            "title": "Image Id"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "gray",
+              "rgb",
+              "hsv",
+              "grid2",
+              "grid4",
+              "mle",
+              "ms13",
+              "ndvi_ndwi",
+              "ms13_idx",
+              "ms_mle"
+            ],
+            "title": "Mode"
+          },
+          "bins": {
+            "type": "integer",
+            "enum": [
+              8,
+              16,
+              32,
+              64,
+              128,
+              256
+            ],
+            "title": "Bins"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "image_id",
+          "mode",
+          "bins"
+        ],
+        "title": "FeaturesRequest"
+      },
+      "FeaturesResponse": {
+        "properties": {
+          "image": {
+            "$ref": "#/components/schemas/ImageMeta"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "gray",
+              "rgb",
+              "hsv",
+              "grid2",
+              "grid4",
+              "mle",
+              "ms13",
+              "ndvi_ndwi",
+              "ms13_idx",
+              "ms_mle"
+            ],
+            "title": "Mode"
+          },
+          "bins": {
+            "type": "integer",
+            "enum": [
+              8,
+              16,
+              32,
+              64,
+              128,
+              256
+            ],
+            "title": "Bins"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "pmf",
+              "moment"
+            ],
+            "title": "Kind"
+          },
+          "dim": {
+            "type": "integer",
+            "title": "Dim"
+          },
+          "channels": {
+            "items": {
+              "$ref": "#/components/schemas/ChannelStats"
+            },
+            "type": "array",
+            "title": "Channels"
+          },
+          "vector_head": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "title": "Vector Head"
+          },
+          "elapsed_ms": {
+            "type": "number",
+            "title": "Elapsed Ms"
+          },
+          "inspector": {
+            "$ref": "#/components/schemas/Inspector"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "image",
+          "mode",
+          "bins",
+          "kind",
+          "dim",
+          "channels",
+          "vector_head",
+          "elapsed_ms",
+          "inspector"
+        ],
+        "title": "FeaturesResponse"
+      },
+      "GnbRequest": {
+        "properties": {
+          "image_id": {
+            "type": "string",
+            "title": "Image Id"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "mle",
+              "grid2",
+              "grid4",
+              "ms_mle"
+            ],
+            "title": "Mode"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "image_id",
+          "mode"
+        ],
+        "title": "GnbRequest"
+      },
+      "GnbResponse": {
+        "properties": {
+          "image": {
+            "$ref": "#/components/schemas/ImageMeta"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "mle",
+              "grid2",
+              "grid4",
+              "ms_mle"
+            ],
+            "title": "Mode"
+          },
+          "predicted": {
+            "type": "string",
+            "enum": [
+              "AnnualCrop",
+              "Forest",
+              "HerbaceousVegetation",
+              "Highway",
+              "Industrial",
+              "Pasture",
+              "PermanentCrop",
+              "Residential",
+              "River",
+              "SeaLake"
+            ],
+            "title": "Predicted"
+          },
+          "rows": {
+            "items": {
+              "$ref": "#/components/schemas/GnbResponseRows"
+            },
+            "type": "array",
+            "title": "Rows"
+          },
+          "inspector": {
+            "$ref": "#/components/schemas/Inspector"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "image",
+          "mode",
+          "predicted",
+          "rows",
+          "inspector"
+        ],
+        "title": "GnbResponse"
+      },
+      "GnbResponseRows": {
+        "properties": {
+          "cls": {
+            "type": "string",
+            "enum": [
+              "AnnualCrop",
+              "Forest",
+              "HerbaceousVegetation",
+              "Highway",
+              "Industrial",
+              "Pasture",
+              "PermanentCrop",
+              "Residential",
+              "River",
+              "SeaLake"
+            ],
+            "title": "Cls"
+          },
+          "prior": {
+            "type": "number",
+            "title": "Prior"
+          },
+          "log_posterior_unnorm": {
+            "type": "number",
+            "title": "Log Posterior Unnorm"
+          },
+          "posterior": {
+            "type": "number",
+            "title": "Posterior"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "cls",
+          "prior",
+          "log_posterior_unnorm",
+          "posterior"
+        ],
+        "title": "GnbResponseRows"
+      },
+      "HealthResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "const": "ok",
+            "title": "Status"
+          },
+          "app_mode": {
+            "type": "string",
+            "enum": [
+              "space",
+              "dev"
+            ],
+            "title": "App Mode"
+          },
+          "index_loaded": {
+            "type": "boolean",
+            "title": "Index Loaded"
+          },
+          "n_images": {
+            "type": "integer",
+            "title": "N Images"
+          },
+          "version": {
+            "type": "string",
+            "title": "Version"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "status",
+          "app_mode",
+          "index_loaded",
+          "n_images",
+          "version"
+        ],
+        "title": "HealthResponse"
+      },
+      "ImageMeta": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "cls": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "AnnualCrop",
+                  "Forest",
+                  "HerbaceousVegetation",
+                  "Highway",
+                  "Industrial",
+                  "Pasture",
+                  "PermanentCrop",
+                  "Residential",
+                  "River",
+                  "SeaLake"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cls"
+          },
+          "split": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "train",
+                  "test"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Split"
+          },
+          "width": {
+            "type": "integer",
+            "title": "Width"
+          },
+          "height": {
+            "type": "integer",
+            "title": "Height"
+          },
+          "bands": {
+            "type": "integer",
+            "title": "Bands"
+          },
+          "has_rgb": {
+            "type": "boolean",
+            "title": "Has Rgb"
+          },
+          "has_ms": {
+            "type": "boolean",
+            "title": "Has Ms"
+          },
+          "in_gallery": {
+            "type": "boolean",
+            "title": "In Gallery"
+          },
+          "is_upload": {
+            "type": "boolean",
+            "title": "Is Upload"
+          },
+          "thumb_url": {
+            "type": "string",
+            "title": "Thumb Url"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "cls",
+          "split",
+          "width",
+          "height",
+          "bands",
+          "has_rgb",
+          "has_ms",
+          "in_gallery",
+          "is_upload",
+          "thumb_url"
+        ],
+        "title": "ImageMeta"
+      },
+      "ImagePreview": {
+        "properties": {
+          "data_uri": {
+            "type": "string",
+            "title": "Data Uri"
+          },
+          "width": {
+            "type": "integer",
+            "title": "Width"
+          },
+          "height": {
+            "type": "integer",
+            "title": "Height"
+          },
+          "kind": {
+            "type": "string",
+            "title": "Kind"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "data_uri",
+          "width",
+          "height",
+          "kind",
+          "note"
+        ],
+        "title": "ImagePreview"
+      },
+      "ImagesListResponse": {
+        "properties": {
+          "total": {
+            "type": "number",
+            "title": "Total"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ImageMeta"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "total",
+          "items"
+        ],
+        "title": "ImagesListResponse"
+      },
+      "Inspector": {
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "steps": {
+            "items": {
+              "$ref": "#/components/schemas/MathStep"
+            },
+            "type": "array",
+            "title": "Steps"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "title",
+          "steps"
+        ],
+        "title": "Inspector"
+      },
+      "KMapGroup": {
+        "properties": {
+          "cells": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Cells"
+          },
+          "cells_rc": {
+            "items": {
+              "prefixItems": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "type": "array",
+              "maxItems": 2,
+              "minItems": 2
+            },
+            "type": "array",
+            "title": "Cells Rc"
+          },
+          "term": {
+            "type": "string",
+            "title": "Term"
+          },
+          "size": {
+            "type": "number",
+            "title": "Size"
+          },
+          "wraps": {
+            "type": "boolean",
+            "title": "Wraps"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "cells",
+          "cells_rc",
+          "term",
+          "size",
+          "wraps"
+        ],
+        "title": "KMapGroup"
+      },
+      "KMapRequest": {
+        "properties": {
+          "variables": {
+            "type": "integer",
+            "enum": [
+              2,
+              3,
+              4
+            ],
+            "title": "Variables"
+          },
+          "minterms": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Minterms"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "variables",
+          "minterms"
+        ],
+        "title": "KMapRequest"
+      },
+      "KMapResponse": {
+        "properties": {
+          "variables": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Variables"
+          },
+          "row_vars": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Row Vars"
+          },
+          "col_vars": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Col Vars"
+          },
+          "row_labels": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Row Labels"
+          },
+          "col_labels": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Col Labels"
+          },
+          "grid": {
+            "items": {
+              "items": {
+                "type": "integer",
+                "enum": [
+                  0,
+                  1
+                ]
+              },
+              "type": "array"
+            },
+            "type": "array",
+            "title": "Grid"
+          },
+          "cell_minterm": {
+            "items": {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            },
+            "type": "array",
+            "title": "Cell Minterm"
+          },
+          "prime_implicants": {
+            "items": {
+              "$ref": "#/components/schemas/KMapGroup"
+            },
+            "type": "array",
+            "title": "Prime Implicants"
+          },
+          "selected": {
+            "items": {
+              "$ref": "#/components/schemas/KMapGroup"
+            },
+            "type": "array",
+            "title": "Selected"
+          },
+          "simplified": {
+            "type": "string",
+            "title": "Simplified"
+          },
+          "inspector": {
+            "$ref": "#/components/schemas/Inspector"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "variables",
+          "row_vars",
+          "col_vars",
+          "row_labels",
+          "col_labels",
+          "grid",
+          "cell_minterm",
+          "prime_implicants",
+          "selected",
+          "simplified",
+          "inspector"
+        ],
+        "title": "KMapResponse"
+      },
+      "LiveBinsRequest": {
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "gray",
+              "rgb",
+              "hsv",
+              "grid2",
+              "grid4",
+              "mle",
+              "ms13",
+              "ndvi_ndwi",
+              "ms13_idx",
+              "ms_mle"
+            ],
+            "title": "Mode"
+          },
+          "metric": {
+            "type": "string",
+            "enum": [
+              "euclid",
+              "chi2",
+              "intersection"
+            ],
+            "title": "Metric"
+          },
+          "bins_list": {
+            "items": {
+              "type": "integer",
+              "enum": [
+                8,
+                16,
+                32,
+                64,
+                128,
+                256
+              ]
+            },
+            "type": "array",
+            "title": "Bins List"
+          },
+          "db_per_class": {
+            "type": "integer",
+            "title": "Db Per Class"
+          },
+          "queries_per_class": {
+            "type": "integer",
+            "title": "Queries Per Class"
+          },
+          "seed": {
+            "type": "integer",
+            "title": "Seed"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "mode",
+          "metric",
+          "bins_list"
+        ],
+        "title": "LiveBinsRequest"
+      },
+      "LiveBinsResponse": {
+        "properties": {
+          "points": {
+            "items": {
+              "$ref": "#/components/schemas/LiveBinsResponsePoints"
+            },
+            "type": "array",
+            "title": "Points"
+          },
+          "chart": {
+            "$ref": "#/components/schemas/ChartSpec"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "points",
+          "chart"
+        ],
+        "title": "LiveBinsResponse"
+      },
+      "LiveBinsResponsePoints": {
+        "properties": {
+          "bins": {
+            "type": "integer",
+            "enum": [
+              8,
+              16,
+              32,
+              64,
+              128,
+              256
+            ],
+            "title": "Bins"
+          },
+          "dim": {
+            "type": "integer",
+            "title": "Dim"
+          },
+          "macro_precision_at_k": {
+            "type": "number",
+            "title": "Macro Precision At K"
+          },
+          "search_ms_per_query": {
+            "type": "number",
+            "title": "Search Ms Per Query"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "bins",
+          "dim",
+          "macro_precision_at_k",
+          "search_ms_per_query"
+        ],
+        "title": "LiveBinsResponsePoints"
+      },
+      "LiveCbirRequest": {
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "gray",
+              "rgb",
+              "hsv",
+              "grid2",
+              "grid4",
+              "mle",
+              "ms13",
+              "ndvi_ndwi",
+              "ms13_idx",
+              "ms_mle"
+            ],
+            "title": "Mode"
+          },
+          "bins": {
+            "type": "integer",
+            "enum": [
+              8,
+              16,
+              32,
+              64,
+              128,
+              256
+            ],
+            "title": "Bins"
+          },
+          "metric": {
+            "type": "string",
+            "enum": [
+              "euclid",
+              "chi2",
+              "intersection"
+            ],
+            "title": "Metric"
+          },
+          "db_per_class": {
+            "type": "integer",
+            "title": "Db Per Class"
+          },
+          "queries_per_class": {
+            "type": "integer",
+            "title": "Queries Per Class"
+          },
+          "k": {
+            "type": "integer",
+            "title": "K"
+          },
+          "seed": {
+            "type": "integer",
+            "title": "Seed"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "mode",
+          "bins",
+          "metric"
+        ],
+        "title": "LiveCbirRequest"
+      },
+      "MathStep": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "latex_template": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latex Template"
+          },
+          "latex_substituted": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latex Substituted"
+          },
+          "explanation": {
+            "type": "string",
+            "title": "Explanation"
+          },
+          "values": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "type": "object",
+            "title": "Values"
+          },
+          "table": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MathTable"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "chart": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ChartSpec"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "latex_template",
+          "latex_substituted",
+          "explanation",
+          "values",
+          "table",
+          "chart"
+        ],
+        "title": "MathStep"
+      },
+      "MathTable": {
+        "properties": {
+          "columns": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Columns"
+          },
+          "rows": {
+            "items": {
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "type": "array"
+            },
+            "type": "array",
+            "title": "Rows"
+          },
+          "caption": {
+            "type": "string",
+            "title": "Caption"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "columns",
+          "rows"
+        ],
+        "title": "MathTable"
+      },
+      "MetaResponse": {
+        "properties": {
+          "classes": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "AnnualCrop",
+                "Forest",
+                "HerbaceousVegetation",
+                "Highway",
+                "Industrial",
+                "Pasture",
+                "PermanentCrop",
+                "Residential",
+                "River",
+                "SeaLake"
+              ]
+            },
+            "type": "array",
+            "title": "Classes"
+          },
+          "class_labels_id": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "propertyNames": {
+              "enum": [
+                "AnnualCrop",
+                "Forest",
+                "HerbaceousVegetation",
+                "Highway",
+                "Industrial",
+                "Pasture",
+                "PermanentCrop",
+                "Residential",
+                "River",
+                "SeaLake"
+              ]
+            },
+            "type": "object",
+            "title": "Class Labels Id"
+          },
+          "feature_modes": {
+            "items": {
+              "$ref": "#/components/schemas/ModeInfo"
+            },
+            "type": "array",
+            "title": "Feature Modes"
+          },
+          "metrics": {
+            "items": {
+              "$ref": "#/components/schemas/MetricInfo"
+            },
+            "type": "array",
+            "title": "Metrics"
+          },
+          "bins_options": {
+            "items": {
+              "type": "integer",
+              "enum": [
+                8,
+                16,
+                32,
+                64,
+                128,
+                256
+              ]
+            },
+            "type": "array",
+            "title": "Bins Options"
+          },
+          "evidence_options": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "mean_gray",
+                "mean_ndvi",
+                "mean_ndwi"
+              ]
+            },
+            "type": "array",
+            "title": "Evidence Options"
+          },
+          "band_names": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Band Names"
+          },
+          "defaults": {
+            "$ref": "#/components/schemas/MetaResponseDefaults"
+          },
+          "limits": {
+            "$ref": "#/components/schemas/MetaResponseLimits"
+          },
+          "dataset": {
+            "$ref": "#/components/schemas/MetaResponseDataset"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "classes",
+          "class_labels_id",
+          "feature_modes",
+          "metrics",
+          "bins_options",
+          "evidence_options",
+          "band_names",
+          "defaults",
+          "limits",
+          "dataset"
+        ],
+        "title": "MetaResponse"
+      },
+      "MetaResponseDataset": {
+        "properties": {
+          "n_total": {
+            "type": "integer",
+            "title": "N Total"
+          },
+          "n_train": {
+            "type": "integer",
+            "title": "N Train"
+          },
+          "n_test": {
+            "type": "integer",
+            "title": "N Test"
+          },
+          "gallery_size": {
+            "type": "integer",
+            "title": "Gallery Size"
+          },
+          "per_class": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/MetaResponseDatasetPerClass"
+            },
+            "propertyNames": {
+              "enum": [
+                "AnnualCrop",
+                "Forest",
+                "HerbaceousVegetation",
+                "Highway",
+                "Industrial",
+                "Pasture",
+                "PermanentCrop",
+                "Residential",
+                "River",
+                "SeaLake"
+              ]
+            },
+            "type": "object",
+            "title": "Per Class"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "n_total",
+          "n_train",
+          "n_test",
+          "gallery_size",
+          "per_class"
+        ],
+        "title": "MetaResponseDataset"
+      },
+      "MetaResponseDatasetPerClass": {
+        "properties": {
+          "train": {
+            "type": "number",
+            "title": "Train"
+          },
+          "test": {
+            "type": "number",
+            "title": "Test"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "train",
+          "test"
+        ],
+        "title": "MetaResponseDatasetPerClass"
+      },
+      "MetaResponseDefaults": {
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "gray",
+              "rgb",
+              "hsv",
+              "grid2",
+              "grid4",
+              "mle",
+              "ms13",
+              "ndvi_ndwi",
+              "ms13_idx",
+              "ms_mle"
+            ],
+            "title": "Mode"
+          },
+          "bins": {
+            "type": "integer",
+            "enum": [
+              8,
+              16,
+              32,
+              64,
+              128,
+              256
+            ],
+            "title": "Bins"
+          },
+          "metric": {
+            "type": "string",
+            "enum": [
+              "euclid",
+              "chi2",
+              "intersection"
+            ],
+            "title": "Metric"
+          },
+          "k": {
+            "type": "integer",
+            "title": "K"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "mode",
+          "bins",
+          "metric",
+          "k"
+        ],
+        "title": "MetaResponseDefaults"
+      },
+      "MetaResponseLimits": {
+        "properties": {
+          "max_upload_mb_image": {
+            "type": "number",
+            "title": "Max Upload Mb Image"
+          },
+          "max_upload_mb_tif": {
+            "type": "number",
+            "title": "Max Upload Mb Tif"
+          },
+          "max_shares": {
+            "type": "number",
+            "title": "Max Shares"
+          },
+          "live_max_db": {
+            "type": "integer",
+            "title": "Live Max Db"
+          },
+          "live_max_queries": {
+            "type": "integer",
+            "title": "Live Max Queries"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "max_upload_mb_image",
+          "max_upload_mb_tif",
+          "max_shares",
+          "live_max_db",
+          "live_max_queries"
+        ],
+        "title": "MetaResponseLimits"
+      },
+      "MetricInfo": {
+        "properties": {
+          "metric": {
+            "type": "string",
+            "enum": [
+              "euclid",
+              "chi2",
+              "intersection"
+            ],
+            "title": "Metric"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "direction": {
+            "type": "string",
+            "enum": [
+              "min",
+              "max"
+            ],
+            "title": "Direction"
+          },
+          "formula_latex": {
+            "type": "string",
+            "title": "Formula Latex"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "metric",
+          "label",
+          "direction",
+          "formula_latex"
+        ],
+        "title": "MetricInfo"
+      },
+      "MgfCheck": {
+        "properties": {
+          "t": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "title": "T"
+          },
+          "m": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "title": "M"
+          },
+          "m1_fd": {
+            "type": "number",
+            "title": "M1 Fd"
+          },
+          "m1_exact": {
+            "type": "number",
+            "title": "M1 Exact"
+          },
+          "m2_fd": {
+            "type": "number",
+            "title": "M2 Fd"
+          },
+          "m2_exact": {
+            "type": "number",
+            "title": "M2 Exact"
+          },
+          "scale_note": {
+            "type": "string",
+            "title": "Scale Note"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "t",
+          "m",
+          "m1_fd",
+          "m1_exact",
+          "m2_fd",
+          "m2_exact",
+          "scale_note"
+        ],
+        "title": "MgfCheck"
+      },
+      "ModeInfo": {
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "gray",
+              "rgb",
+              "hsv",
+              "grid2",
+              "grid4",
+              "mle",
+              "ms13",
+              "ndvi_ndwi",
+              "ms13_idx",
+              "ms_mle"
+            ],
+            "title": "Mode"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "pmf",
+              "moment"
+            ],
+            "title": "Kind"
+          },
+          "needs_multispectral": {
+            "type": "boolean",
+            "title": "Needs Multispectral"
+          },
+          "supports_bins": {
+            "type": "boolean",
+            "title": "Supports Bins"
+          },
+          "metrics": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "euclid",
+                "chi2",
+                "intersection"
+              ]
+            },
+            "type": "array",
+            "title": "Metrics"
+          },
+          "dim_fixed": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dim Fixed"
+          },
+          "dim_by_bins": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "integer"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dim By Bins"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "mode",
+          "label",
+          "kind",
+          "needs_multispectral",
+          "supports_bins",
+          "metrics",
+          "dim_fixed",
+          "dim_by_bins"
+        ],
+        "title": "ModeInfo"
+      },
+      "Moments": {
+        "properties": {
+          "mean": {
+            "type": "number",
+            "title": "Mean"
+          },
+          "variance": {
+            "type": "number",
+            "title": "Variance"
+          },
+          "std": {
+            "type": "number",
+            "title": "Std"
+          },
+          "skewness": {
+            "type": "number",
+            "title": "Skewness"
+          },
+          "kurtosis": {
+            "type": "number",
+            "title": "Kurtosis"
+          },
+          "degenerate": {
+            "type": "boolean",
+            "title": "Degenerate"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "mean",
+          "variance",
+          "std",
+          "skewness",
+          "kurtosis",
+          "degenerate"
+        ],
+        "title": "Moments"
+      },
+      "PixelXorRequest": {
+        "properties": {
+          "image_id": {
+            "type": "string",
+            "title": "Image Id"
+          },
+          "x": {
+            "type": "integer",
+            "title": "X"
+          },
+          "y": {
+            "type": "integer",
+            "title": "Y"
+          },
+          "n": {
+            "type": "integer",
+            "title": "N"
+          },
+          "channel": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "gray",
+                  "r",
+                  "g",
+                  "b"
+                ]
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Channel"
+          },
+          "seed": {
+            "type": "integer",
+            "title": "Seed"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "image_id",
+          "x",
+          "y",
+          "n",
+          "channel"
+        ],
+        "title": "PixelXorRequest"
+      },
+      "PixelXorResponse": {
+        "properties": {
+          "value": {
+            "type": "integer",
+            "title": "Value"
+          },
+          "value_bin": {
+            "type": "string",
+            "title": "Value Bin"
+          },
+          "shares": {
+            "items": {
+              "$ref": "#/components/schemas/PixelXorResponseShares"
+            },
+            "type": "array",
+            "title": "Shares"
+          },
+          "reconstructed": {
+            "type": "integer",
+            "title": "Reconstructed"
+          },
+          "ok": {
+            "type": "boolean",
+            "title": "Ok"
+          },
+          "inspector": {
+            "$ref": "#/components/schemas/Inspector"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "value",
+          "value_bin",
+          "shares",
+          "reconstructed",
+          "ok",
+          "inspector"
+        ],
+        "title": "PixelXorResponse"
+      },
+      "PixelXorResponseShares": {
+        "properties": {
+          "index": {
+            "type": "integer",
+            "title": "Index"
+          },
+          "value": {
+            "type": "integer",
+            "title": "Value"
+          },
+          "bin": {
+            "type": "string",
+            "title": "Bin"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "index",
+          "value",
+          "bin"
+        ],
+        "title": "PixelXorResponseShares"
+      },
+      "ProofStep": {
+        "properties": {
+          "expression": {
+            "type": "string",
+            "title": "Expression"
+          },
+          "reason": {
+            "type": "string",
+            "title": "Reason"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "expression",
+          "reason"
+        ],
+        "title": "ProofStep"
+      },
+      "ProveRequest": {
+        "properties": {
+          "lhs": {
+            "type": "string",
+            "title": "Lhs"
+          },
+          "rhs": {
+            "type": "string",
+            "title": "Rhs"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "lhs",
+          "rhs"
+        ],
+        "title": "ProveRequest"
+      },
+      "ProveResponse": {
+        "properties": {
+          "equivalent": {
+            "type": "boolean",
+            "title": "Equivalent"
+          },
+          "variables": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Variables"
+          },
+          "table": {
+            "$ref": "#/components/schemas/MathTable"
+          },
+          "counterexample": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProveResponseCounterexample"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "algebraic_proof": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ProofStep"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Algebraic Proof"
+          },
+          "dual": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProveResponseDual"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "inspector": {
+            "$ref": "#/components/schemas/Inspector"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "equivalent",
+          "variables",
+          "table",
+          "counterexample",
+          "algebraic_proof",
+          "dual",
+          "inspector"
+        ],
+        "title": "ProveResponse"
+      },
+      "ProveResponseCounterexample": {
+        "properties": {
+          "inputs": {
+            "items": {
+              "type": "integer",
+              "enum": [
+                0,
+                1
+              ]
+            },
+            "type": "array",
+            "title": "Inputs"
+          },
+          "lhs": {
+            "type": "integer",
+            "enum": [
+              0,
+              1
+            ],
+            "title": "Lhs"
+          },
+          "rhs": {
+            "type": "integer",
+            "enum": [
+              0,
+              1
+            ],
+            "title": "Rhs"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "inputs",
+          "lhs",
+          "rhs"
+        ],
+        "title": "ProveResponseCounterexample"
+      },
+      "ProveResponseDual": {
+        "properties": {
+          "lhs": {
+            "type": "string",
+            "title": "Lhs"
+          },
+          "rhs": {
+            "type": "string",
+            "title": "Rhs"
+          },
+          "equivalent": {
+            "type": "boolean",
+            "title": "Equivalent"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "lhs",
+          "rhs",
+          "equivalent"
+        ],
+        "title": "ProveResponseDual"
+      },
+      "Raid5Request": {
+        "properties": {
+          "image_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Image Ids"
+          },
+          "failed_index": {
+            "type": "integer",
+            "title": "Failed Index"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "image_ids",
+          "failed_index"
+        ],
+        "title": "Raid5Request"
+      },
+      "Raid5Response": {
+        "properties": {
+          "scalar_demo": {
+            "$ref": "#/components/schemas/Raid5ResponseScalarDemo"
+          },
+          "previews": {
+            "$ref": "#/components/schemas/Raid5ResponsePreviews"
+          },
+          "identical": {
+            "type": "boolean",
+            "title": "Identical"
+          },
+          "limitation": {
+            "type": "string",
+            "title": "Limitation"
+          },
+          "inspector": {
+            "$ref": "#/components/schemas/Inspector"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "scalar_demo",
+          "previews",
+          "identical",
+          "limitation",
+          "inspector"
+        ],
+        "title": "Raid5Response"
+      },
+      "Raid5ResponsePreviews": {
+        "properties": {
+          "disks": {
+            "items": {
+              "$ref": "#/components/schemas/ImagePreview"
+            },
+            "type": "array",
+            "title": "Disks"
+          },
+          "parity": {
+            "$ref": "#/components/schemas/ImagePreview"
+          },
+          "recovered": {
+            "$ref": "#/components/schemas/ImagePreview"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "disks",
+          "parity",
+          "recovered"
+        ],
+        "title": "Raid5ResponsePreviews"
+      },
+      "Raid5ResponseScalarDemo": {
+        "properties": {
+          "d": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "D"
+          },
+          "p": {
+            "type": "string",
+            "title": "P"
+          },
+          "failed_index": {
+            "type": "integer",
+            "title": "Failed Index"
+          },
+          "recovered": {
+            "type": "string",
+            "title": "Recovered"
+          },
+          "ok": {
+            "type": "boolean",
+            "title": "Ok"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "d",
+          "p",
+          "failed_index",
+          "recovered",
+          "ok"
+        ],
+        "title": "Raid5ResponseScalarDemo"
+      },
+      "ReconMetrics": {
+        "properties": {
+          "identical": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Identical"
+          },
+          "mse": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mse"
+          },
+          "psnr_db": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Psnr Db"
+          },
+          "psnr_is_infinite": {
+            "type": "boolean",
+            "title": "Psnr Is Infinite"
+          },
+          "pixels_different": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pixels Different"
+          },
+          "max_abs_diff": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Abs Diff"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "identical",
+          "mse",
+          "psnr_db",
+          "psnr_is_infinite",
+          "pixels_different",
+          "max_abs_diff"
+        ],
+        "title": "ReconMetrics"
+      },
+      "ReconstructRequest": {
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "title": "Session Id"
+          },
+          "share_indices": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Share Indices"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "session_id"
+        ],
+        "title": "ReconstructRequest"
+      },
+      "ReconstructResponse": {
+        "properties": {
+          "used_indices": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Used Indices"
+          },
+          "n_total": {
+            "type": "integer",
+            "title": "N Total"
+          },
+          "is_complete": {
+            "type": "boolean",
+            "title": "Is Complete"
+          },
+          "preview": {
+            "$ref": "#/components/schemas/ImagePreview"
+          },
+          "metrics": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ReconMetrics"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "entropy_bits": {
+            "type": "number",
+            "title": "Entropy Bits"
+          },
+          "inspector": {
+            "$ref": "#/components/schemas/Inspector"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "used_indices",
+          "n_total",
+          "is_complete",
+          "preview",
+          "metrics",
+          "entropy_bits",
+          "inspector"
+        ],
+        "title": "ReconstructResponse"
+      },
+      "ReuseKeyRequest": {
+        "properties": {
+          "image_id_1": {
+            "type": "string",
+            "title": "Image Id 1"
+          },
+          "image_id_2": {
+            "type": "string",
+            "title": "Image Id 2"
+          },
+          "seed": {
+            "type": "integer",
+            "title": "Seed"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "image_id_1",
+          "image_id_2"
+        ],
+        "title": "ReuseKeyRequest"
+      },
+      "ReuseKeyResponse": {
+        "properties": {
+          "scalar_demo": {
+            "$ref": "#/components/schemas/ReuseKeyResponseScalarDemo"
+          },
+          "previews": {
+            "$ref": "#/components/schemas/ReuseKeyResponsePreviews"
+          },
+          "identical": {
+            "type": "boolean",
+            "title": "Identical"
+          },
+          "key_recovered_from_known_plaintext": {
+            "type": "boolean",
+            "title": "Key Recovered From Known Plaintext"
+          },
+          "inspector": {
+            "$ref": "#/components/schemas/Inspector"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "scalar_demo",
+          "previews",
+          "identical",
+          "key_recovered_from_known_plaintext",
+          "inspector"
+        ],
+        "title": "ReuseKeyResponse"
+      },
+      "ReuseKeyResponsePreviews": {
+        "properties": {
+          "i1": {
+            "$ref": "#/components/schemas/ImagePreview"
+          },
+          "i2": {
+            "$ref": "#/components/schemas/ImagePreview"
+          },
+          "c1": {
+            "$ref": "#/components/schemas/ImagePreview"
+          },
+          "c2": {
+            "$ref": "#/components/schemas/ImagePreview"
+          },
+          "c1_xor_c2": {
+            "$ref": "#/components/schemas/ImagePreview"
+          },
+          "i1_xor_i2": {
+            "$ref": "#/components/schemas/ImagePreview"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "i1",
+          "i2",
+          "c1",
+          "c2",
+          "c1_xor_c2",
+          "i1_xor_i2"
+        ],
+        "title": "ReuseKeyResponsePreviews"
+      },
+      "ReuseKeyResponseScalarDemo": {
+        "properties": {
+          "m1": {
+            "type": "string",
+            "title": "M1"
+          },
+          "m2": {
+            "type": "string",
+            "title": "M2"
+          },
+          "k": {
+            "type": "string",
+            "title": "K"
+          },
+          "c1": {
+            "type": "string",
+            "title": "C1"
+          },
+          "c2": {
+            "type": "string",
+            "title": "C2"
+          },
+          "c1_xor_c2": {
+            "type": "string",
+            "title": "C1 Xor C2"
+          },
+          "m1_xor_m2": {
+            "type": "string",
+            "title": "M1 Xor M2"
+          },
+          "equal": {
+            "type": "boolean",
+            "title": "Equal"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "m1",
+          "m2",
+          "k",
+          "c1",
+          "c2",
+          "c1_xor_c2",
+          "m1_xor_m2",
+          "equal"
+        ],
+        "title": "ReuseKeyResponseScalarDemo"
+      },
+      "SearchHit": {
+        "properties": {
+          "rank": {
+            "type": "integer",
+            "title": "Rank"
+          },
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "cls": {
+            "type": "string",
+            "enum": [
+              "AnnualCrop",
+              "Forest",
+              "HerbaceousVegetation",
+              "Highway",
+              "Industrial",
+              "Pasture",
+              "PermanentCrop",
+              "Residential",
+              "River",
+              "SeaLake"
+            ],
+            "title": "Cls"
+          },
+          "split": {
+            "type": "string",
+            "enum": [
+              "train",
+              "test"
+            ],
+            "title": "Split"
+          },
+          "distance": {
+            "type": "number",
+            "title": "Distance"
+          },
+          "similarity": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Similarity"
+          },
+          "same_class": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Same Class"
+          },
+          "thumb_url": {
+            "type": "string",
+            "title": "Thumb Url"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "rank",
+          "id",
+          "cls",
+          "split",
+          "distance",
+          "similarity",
+          "same_class",
+          "thumb_url"
+        ],
+        "title": "SearchHit"
+      },
+      "SearchRequest": {
+        "properties": {
+          "image_id": {
+            "type": "string",
+            "title": "Image Id"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "gray",
+              "rgb",
+              "hsv",
+              "grid2",
+              "grid4",
+              "mle",
+              "ms13",
+              "ndvi_ndwi",
+              "ms13_idx",
+              "ms_mle"
+            ],
+            "title": "Mode"
+          },
+          "bins": {
+            "type": "integer",
+            "enum": [
+              8,
+              16,
+              32,
+              64,
+              128,
+              256
+            ],
+            "title": "Bins"
+          },
+          "metric": {
+            "type": "string",
+            "enum": [
+              "euclid",
+              "chi2",
+              "intersection"
+            ],
+            "title": "Metric"
+          },
+          "k": {
+            "type": "integer",
+            "title": "K"
+          },
+          "database": {
+            "type": "string",
+            "enum": [
+              "all",
+              "train"
+            ],
+            "title": "Database"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "image_id",
+          "mode",
+          "bins",
+          "metric"
+        ],
+        "title": "SearchRequest"
+      },
+      "SearchResponse": {
+        "properties": {
+          "query": {
+            "$ref": "#/components/schemas/ImageMeta"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "gray",
+              "rgb",
+              "hsv",
+              "grid2",
+              "grid4",
+              "mle",
+              "ms13",
+              "ndvi_ndwi",
+              "ms13_idx",
+              "ms_mle"
+            ],
+            "title": "Mode"
+          },
+          "bins": {
+            "type": "integer",
+            "enum": [
+              8,
+              16,
+              32,
+              64,
+              128,
+              256
+            ],
+            "title": "Bins"
+          },
+          "metric": {
+            "type": "string",
+            "enum": [
+              "euclid",
+              "chi2",
+              "intersection"
+            ],
+            "title": "Metric"
+          },
+          "k": {
+            "type": "integer",
+            "title": "K"
+          },
+          "database": {
+            "type": "string",
+            "enum": [
+              "all",
+              "train"
+            ],
+            "title": "Database"
+          },
+          "db_size": {
+            "type": "integer",
+            "title": "Db Size"
+          },
+          "hits": {
+            "items": {
+              "$ref": "#/components/schemas/SearchHit"
+            },
+            "type": "array",
+            "title": "Hits"
+          },
+          "precision_at_k": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Precision At K"
+          },
+          "elapsed_ms": {
+            "$ref": "#/components/schemas/SearchResponseElapsedMs"
+          },
+          "inspector": {
+            "$ref": "#/components/schemas/Inspector"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "query",
+          "mode",
+          "bins",
+          "metric",
+          "k",
+          "database",
+          "db_size",
+          "hits",
+          "precision_at_k",
+          "elapsed_ms",
+          "inspector"
+        ],
+        "title": "SearchResponse"
+      },
+      "SearchResponseElapsedMs": {
+        "properties": {
+          "feature": {
+            "type": "number",
+            "title": "Feature"
+          },
+          "search": {
+            "type": "number",
+            "title": "Search"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "feature",
+          "search"
+        ],
+        "title": "SearchResponseElapsedMs"
+      },
+      "SecurityRequest": {
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "title": "Session Id"
+          },
+          "run_cbir": {
+            "type": "boolean",
+            "title": "Run Cbir"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "gray",
+              "rgb",
+              "hsv",
+              "grid2",
+              "grid4",
+              "mle",
+              "ms13",
+              "ndvi_ndwi",
+              "ms13_idx",
+              "ms_mle"
+            ],
+            "title": "Mode"
+          },
+          "bins": {
+            "type": "integer",
+            "enum": [
+              8,
+              16,
+              32,
+              64,
+              128,
+              256
+            ],
+            "title": "Bins"
+          },
+          "metric": {
+            "type": "string",
+            "enum": [
+              "euclid",
+              "chi2",
+              "intersection"
+            ],
+            "title": "Metric"
+          },
+          "k": {
+            "type": "integer",
+            "title": "K"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "session_id"
+        ],
+        "title": "SecurityRequest"
+      },
+      "SecurityResponse": {
+        "properties": {
+          "n": {
+            "type": "integer",
+            "title": "N"
+          },
+          "bits": {
+            "type": "integer",
+            "enum": [
+              8,
+              16
+            ],
+            "title": "Bits"
+          },
+          "subsets": {
+            "items": {
+              "$ref": "#/components/schemas/SubsetTest"
+            },
+            "type": "array",
+            "title": "Subsets"
+          },
+          "theory": {
+            "$ref": "#/components/schemas/SecurityResponseTheory"
+          },
+          "inspector": {
+            "$ref": "#/components/schemas/Inspector"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "n",
+          "bits",
+          "subsets",
+          "theory",
+          "inspector"
+        ],
+        "title": "SecurityResponse"
+      },
+      "SecurityResponseTheory": {
+        "properties": {
+          "p_uniform": {
+            "type": "number",
+            "title": "P Uniform"
+          },
+          "max_entropy_bits": {
+            "type": "number",
+            "title": "Max Entropy Bits"
+          },
+          "statement": {
+            "type": "string",
+            "title": "Statement"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "p_uniform",
+          "max_entropy_bits",
+          "statement"
+        ],
+        "title": "SecurityResponseTheory"
+      },
+      "ShareInfo": {
+        "properties": {
+          "index": {
+            "type": "integer",
+            "title": "Index"
+          },
+          "preview": {
+            "$ref": "#/components/schemas/ImagePreview"
+          },
+          "histogram": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "title": "Histogram"
+          },
+          "entropy_bits": {
+            "type": "number",
+            "title": "Entropy Bits"
+          },
+          "chi2": {
+            "$ref": "#/components/schemas/Chi2Test"
+          },
+          "download_urls": {
+            "$ref": "#/components/schemas/ShareInfoDownloadUrls"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "index",
+          "preview",
+          "histogram",
+          "entropy_bits",
+          "chi2",
+          "download_urls"
+        ],
+        "title": "ShareInfo"
+      },
+      "ShareInfoDownloadUrls": {
+        "properties": {
+          "png": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Png"
+          },
+          "npy": {
+            "type": "string",
+            "title": "Npy"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "png",
+          "npy"
+        ],
+        "title": "ShareInfoDownloadUrls"
+      },
+      "SplitRequest": {
+        "properties": {
+          "image_id": {
+            "type": "string",
+            "title": "Image Id"
+          },
+          "n": {
+            "type": "integer",
+            "title": "N"
+          },
+          "band_mode": {
+            "type": "string",
+            "enum": [
+              "gray",
+              "rgb",
+              "band",
+              "ms13"
+            ],
+            "title": "Band Mode"
+          },
+          "band_index": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Band Index"
+          },
+          "seed": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seed"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "image_id",
+          "n",
+          "band_mode"
+        ],
+        "title": "SplitRequest"
+      },
+      "SplitResponse": {
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "title": "Session Id"
+          },
+          "n": {
+            "type": "integer",
+            "title": "N"
+          },
+          "band_mode": {
+            "type": "string",
+            "enum": [
+              "gray",
+              "rgb",
+              "band",
+              "ms13"
+            ],
+            "title": "Band Mode"
+          },
+          "shape": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Shape"
+          },
+          "dtype": {
+            "type": "string",
+            "enum": [
+              "uint8",
+              "uint16"
+            ],
+            "title": "Dtype"
+          },
+          "bits": {
+            "type": "integer",
+            "enum": [
+              8,
+              16
+            ],
+            "title": "Bits"
+          },
+          "seed": {
+            "type": "integer",
+            "title": "Seed"
+          },
+          "original_preview": {
+            "$ref": "#/components/schemas/ImagePreview"
+          },
+          "shares": {
+            "items": {
+              "$ref": "#/components/schemas/ShareInfo"
+            },
+            "type": "array",
+            "title": "Shares"
+          },
+          "reconstruction": {
+            "$ref": "#/components/schemas/ReconMetrics"
+          },
+          "inspector": {
+            "$ref": "#/components/schemas/Inspector"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "session_id",
+          "n",
+          "band_mode",
+          "shape",
+          "dtype",
+          "bits",
+          "seed",
+          "original_preview",
+          "shares",
+          "reconstruction",
+          "inspector"
+        ],
+        "title": "SplitResponse"
+      },
+      "SubsetTest": {
+        "properties": {
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "k_shares": {
+            "type": "number",
+            "title": "K Shares"
+          },
+          "subset": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "title": "Subset"
+          },
+          "entropy_bits": {
+            "type": "number",
+            "title": "Entropy Bits"
+          },
+          "chi2": {
+            "$ref": "#/components/schemas/Chi2Test"
+          },
+          "pearson_r_with_original": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pearson R With Original"
+          },
+          "mse_vs_original": {
+            "type": "number",
+            "title": "Mse Vs Original"
+          },
+          "cbir": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SubsetTestCbir"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reveals_secret": {
+            "type": "boolean",
+            "title": "Reveals Secret"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "label",
+          "k_shares",
+          "subset",
+          "entropy_bits",
+          "chi2",
+          "pearson_r_with_original",
+          "mse_vs_original",
+          "cbir",
+          "reveals_secret"
+        ],
+        "title": "SubsetTest"
+      },
+      "SubsetTestCbir": {
+        "properties": {
+          "precision_at_k": {
+            "type": "number",
+            "title": "Precision At K"
+          },
+          "chance_level": {
+            "type": "number",
+            "title": "Chance Level"
+          },
+          "hits": {
+            "items": {
+              "$ref": "#/components/schemas/SearchHit"
+            },
+            "type": "array",
+            "title": "Hits"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "precision_at_k",
+          "chance_level",
+          "hits"
+        ],
+        "title": "SubsetTestCbir"
+      },
+      "TamperRequest": {
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "title": "Session Id"
+          },
+          "share_index": {
+            "type": "integer",
+            "title": "Share Index"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "pixel",
+              "bitflip",
+              "block"
+            ],
+            "title": "Mode"
+          },
+          "x": {
+            "type": "integer",
+            "title": "X"
+          },
+          "y": {
+            "type": "integer",
+            "title": "Y"
+          },
+          "bit": {
+            "type": "integer",
+            "title": "Bit"
+          },
+          "p": {
+            "type": "number",
+            "title": "P"
+          },
+          "block_size": {
+            "type": "integer",
+            "title": "Block Size"
+          },
+          "seed": {
+            "type": "integer",
+            "title": "Seed"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "session_id",
+          "share_index",
+          "mode"
+        ],
+        "title": "TamperRequest"
+      },
+      "TamperResponse": {
+        "properties": {
+          "share_index": {
+            "type": "integer",
+            "title": "Share Index"
+          },
+          "changed_values": {
+            "type": "integer",
+            "title": "Changed Values"
+          },
+          "tampered_share_preview": {
+            "$ref": "#/components/schemas/ImagePreview"
+          },
+          "reconstruct_preview": {
+            "$ref": "#/components/schemas/ImagePreview"
+          },
+          "diff_preview": {
+            "$ref": "#/components/schemas/ImagePreview"
+          },
+          "metrics": {
+            "$ref": "#/components/schemas/ReconMetrics"
+          },
+          "inspector": {
+            "$ref": "#/components/schemas/Inspector"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "share_index",
+          "changed_values",
+          "tampered_share_preview",
+          "reconstruct_preview",
+          "diff_preview",
+          "metrics",
+          "inspector"
+        ],
+        "title": "TamperResponse"
+      },
+      "TruthTableRequest": {
+        "properties": {
+          "expression": {
+            "type": "string",
+            "title": "Expression"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "expression"
+        ],
+        "title": "TruthTableRequest"
+      },
+      "TruthTableResponse": {
+        "properties": {
+          "normalized": {
+            "type": "string",
+            "title": "Normalized"
+          },
+          "variables": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Variables"
+          },
+          "rows": {
+            "items": {
+              "$ref": "#/components/schemas/TruthTableResponseRows"
+            },
+            "type": "array",
+            "title": "Rows"
+          },
+          "minterms": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Minterms"
+          },
+          "sop_canonical": {
+            "type": "string",
+            "title": "Sop Canonical"
+          },
+          "circuit": {
+            "$ref": "#/components/schemas/Circuit"
+          },
+          "inspector": {
+            "$ref": "#/components/schemas/Inspector"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "normalized",
+          "variables",
+          "rows",
+          "minterms",
+          "sop_canonical",
+          "circuit",
+          "inspector"
+        ],
+        "title": "TruthTableResponse"
+      },
+      "TruthTableResponseRows": {
+        "properties": {
+          "inputs": {
+            "items": {
+              "type": "integer",
+              "enum": [
+                0,
+                1
+              ]
+            },
+            "type": "array",
+            "title": "Inputs"
+          },
+          "output": {
+            "type": "integer",
+            "enum": [
+              0,
+              1
+            ],
+            "title": "Output"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "inputs",
+          "output"
+        ],
+        "title": "TruthTableResponseRows"
+      },
+      "XorGateResponse": {
+        "properties": {
+          "definition": {
+            "type": "string",
+            "title": "Definition"
+          },
+          "table": {
+            "$ref": "#/components/schemas/MathTable"
+          },
+          "circuit": {
+            "$ref": "#/components/schemas/Circuit"
+          },
+          "verified": {
+            "type": "boolean",
+            "title": "Verified"
+          },
+          "inspector": {
+            "$ref": "#/components/schemas/Inspector"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "definition",
+          "table",
+          "circuit",
+          "verified",
+          "inspector"
+        ],
+        "title": "XorGateResponse"
+      }
+    }
+  }
+}
