@@ -90,7 +90,7 @@ describe("Beranda dan navigasi", () => {
 
   it("membuka setiap rute placeholder secara langsung", () => {
     const pages = [
-      ["/cbir", "CBIR"], ["/sharing", "Berbagi Rahasia"], ["/boolean", "Lab Boolean"],
+      ["/boolean", "Lab Boolean"],
       ["/percobaan", "Percobaan"], ["/inspector", "Inspektor Matematika"],
     ] as const;
     for (const [path, title] of pages) {

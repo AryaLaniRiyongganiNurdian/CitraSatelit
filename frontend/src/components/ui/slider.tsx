@@ -2,6 +2,7 @@ import * as React from "react"
 import { Slider as SliderPrimitive } from "radix-ui"
 
 function Slider({
+  "aria-label": ariaLabel,
   className,
   defaultValue,
   value,
@@ -22,6 +23,7 @@ function Slider({
   return (
     <SliderPrimitive.Root
       data-slot="slider"
+      aria-label={_values.length > 1 ? ariaLabel : undefined}
       defaultValue={defaultValue}
       value={value}
       min={min}
@@ -39,6 +41,7 @@ function Slider({
       {Array.from({ length: _values.length }, (_, index) => (
         <SliderPrimitive.Thumb
           data-slot="slider-thumb"
+          aria-label={_values.length === 1 ? ariaLabel : undefined}
           key={index}
         />
       ))}

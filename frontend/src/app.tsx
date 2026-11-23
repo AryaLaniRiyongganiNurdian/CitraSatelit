@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { Link, NavLink, Route, Routes, useLocation } from "react-router-dom";
 import arrow from "@/assets/arrow.svg";
@@ -6,6 +6,10 @@ import disc from "@/assets/orbital-disc.svg";
 import external from "@/assets/diagonal-external.svg";
 import { Button } from "@/components/ui/button";
 import { Home } from "@/pages/home";
+import { Skeleton } from "@/components/ui/skeleton";
+
+const CbirPage = lazy(() => import("@/pages/cbir").then((module) => ({ default: module.CbirPage })));
+const SharingPage = lazy(() => import("@/pages/sharing").then((module) => ({ default: module.SharingPage })));
 
 const routes = [
   { path: "/", label: "Beranda", description: "" },
@@ -83,13 +87,17 @@ export function App() {
       <ScrollToRoute />
       <Header />
       <main id="main" tabIndex={-1}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          {routes.slice(1).map(({ path, label, description }) => (
-            <Route key={path} path={path} element={<WorkbenchPlaceholder title={label} description={description} />} />
-          ))}
-          <Route path="*" element={<WorkbenchPlaceholder title="Halaman tidak ditemukan" description="Periksa kembali alamat yang dibuka." />} />
-        </Routes>
+        <Suspense fallback={<Skeleton className="min-h-48" role="status" aria-label="Memuat ruang kerja" />}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/cbir" element={<CbirPage />} />
+            <Route path="/sharing" element={<SharingPage />} />
+            {routes.slice(3).map(({ path, label, description }) => (
+              <Route key={path} path={path} element={<WorkbenchPlaceholder title={label} description={description} />} />
+            ))}
+            <Route path="*" element={<WorkbenchPlaceholder title="Halaman tidak ditemukan" description="Periksa kembali alamat yang dibuka." />} />
+          </Routes>
+        </Suspense>
       </main>
       <Footer />
     </>

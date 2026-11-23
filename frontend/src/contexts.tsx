@@ -1,12 +1,13 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
 import { Toaster } from "sonner";
-import type { Inspector, SplitRequest } from "@/types/api";
+import type { ImageMeta, Inspector, SplitRequest, SplitResponse } from "@/types/api";
 
-type SharingSession = { session_id: string; request: SplitRequest };
+type SharingSession = { session_id: string; request: SplitRequest; image: ImageMeta; result: SplitResponse; expired?: boolean };
 type SharingState = {
   session: SharingSession | null;
   setSession: (session: SharingSession | null) => void;
+  expireSession: (id: string) => void;
 };
 type InspectorPage = "cbir" | "sharing" | "boolean" | "percobaan" | "inspector";
 type InspectorState = {
@@ -35,18 +36,27 @@ export function AppProviders({ children, queryClient }: { children: ReactNode; q
   }));
   const [session, setSession] = useState<SharingSession | null>(null);
   const [latest, setInspectors] = useState<InspectorState["latest"]>({});
-  const sharing = useMemo(() => ({ session, setSession }), [session]);
-  const inspector = useMemo<InspectorState>(() => ({
-    latest,
-    setLatest: (page, value) => setInspectors((current) => ({ ...current, [page]: value })),
-  }), [latest]);
+  const expireSession = useCallback((id: string) => {
+    setSession((current) => current?.session_id === id && !current.expired ? { ...current, expired: true } : current);
+  }, []);
+  const setLatest = useCallback<InspectorState["setLatest"]>((page, value) => {
+    setInspectors((current) => current[page] === value ? current : { ...current, [page]: value });
+  }, []);
+  const sharing = useMemo(() => ({ session, setSession, expireSession }), [session, expireSession]);
+  const inspector = useMemo(() => ({ latest, setLatest }), [latest, setLatest]);
 
   return (
     <QueryClientProvider client={client}>
       <SharingContext.Provider value={sharing}>
         <InspectorContext.Provider value={inspector}>
           {children}
-          <Toaster position="bottom-right" theme="light" toastOptions={{ className: "editorial-toast" }} />
+          <Toaster position="bottom-right" theme="light" toastOptions={{
+            className: "editorial-toast",
+            style: {
+              borderRadius: "var(--radius)", boxShadow: "none", background: "var(--surface)", color: "var(--ink)",
+              border: "var(--hairline) solid var(--line)", fontFamily: "var(--font-display)",
+            },
+          }} />
         </InspectorContext.Provider>
       </SharingContext.Provider>
     </QueryClientProvider>
