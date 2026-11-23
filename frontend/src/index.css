@@ -1,0 +1,98 @@
+@import "tailwindcss";
+@import "./components/ui/theme.css";
+
+@theme inline {
+  --font-sans: var(--font-display);
+  --font-mono: var(--font-label);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--secondary);
+  --color-accent-foreground: var(--foreground);
+  --color-border: var(--border);
+  --color-input: var(--border);
+  --color-ring: var(--primary);
+  --color-destructive: var(--destructive);
+  --radius-xs: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-3xl: 0px;
+  --radius-4xl: 0px;
+}
+
+:root {
+  --font-display: "Space Grotesk", sans-serif;
+  --font-label: "IBM Plex Mono", monospace;
+  --surface: #f4f4f1;
+  --surface-raised: #e5e7e0;
+  --ink: #101110;
+  --ink-muted: #5d615f;
+  --ink-inverse: #ffffff;
+  --cobalt: #1818ff;
+  --line: #cfd1cb;
+  --workbench: #111;
+  --workbench-panel: #1c201e;
+  --workbench-line: #373b39;
+  --workbench-line-emphasis: #676c68;
+  --workbench-muted: #a4aaa7;
+  --workbench-copy: #ced2cf;
+  --workbench-caption: #d4d8d4;
+  --radius: 0px;
+  --hairline: 1px;
+  --gutter: 32px;
+  --nav-height: 88px;
+  --hero-leading: 0.86;
+  --label-leading: 1.35;
+  --label-size: 11px;
+  --title-size: 122px;
+  --section-heading: 52px;
+  --background: var(--surface);
+  --foreground: var(--ink);
+  --card: var(--surface-raised);
+  --popover: var(--surface);
+  --focus-ring: var(--cobalt);
+  --primary: var(--cobalt);
+  --primary-foreground: var(--ink-inverse);
+  --secondary: var(--surface-raised);
+  --muted: var(--surface-raised);
+  --muted-foreground: var(--ink-muted);
+  --border: var(--line);
+  --destructive: #a32232;
+}
+
+.workbench, .dark, [data-theme="workbench"] {
+  --background: var(--workbench);
+  --foreground: var(--ink-inverse);
+  --card: var(--workbench-panel);
+  --popover: var(--workbench-panel);
+  --secondary: var(--workbench-panel);
+  --muted: var(--workbench-panel);
+  --muted-foreground: var(--workbench-muted);
+  --border: var(--workbench-line);
+  --focus-ring: var(--ink-inverse);
+  color-scheme: dark;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--background); color: var(--foreground); font-family: var(--font-display); }
+  button, a, input { -webkit-tap-highlight-color: transparent; }
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 4px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}

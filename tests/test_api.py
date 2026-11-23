@@ -169,7 +169,8 @@ def test_static_mount_coexists_with_api(fixture_data, tmp_path, client):
     (dist / "index.html").write_text("Fixture frontend", encoding="utf-8")
     root, settings = fixture_data
     with TestClient(create_app(settings, results_dir=root / "results", dist_dir=dist)) as browser:
-        assert browser.get("/").text == "Fixture frontend"
+        for path in ("/", "/cbir", "/sharing", "/boolean", "/percobaan", "/inspector"):
+            assert browser.get(path).text == "Fixture frontend"
         assert browser.get("/api/health").status_code == 200
         assert browser.get("/openapi.json").status_code == 200
 

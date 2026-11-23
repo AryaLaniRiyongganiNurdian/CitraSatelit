@@ -2,7 +2,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from starlette.responses import JSONResponse
+from starlette.responses import FileResponse, JSONResponse
 from starlette.staticfiles import StaticFiles
 
 from src.api import schemas as s
@@ -94,6 +94,13 @@ def create_app(settings=None, *, results_dir=None, dist_dir=None, gallery_dir=No
 
     for router in (images, cbir, sharing, boolean, experiments, live, inspector):
         app.include_router(router.router, prefix="/api")
+    entry = dist_dir / "index.html"
+    if entry.is_file():
+        def frontend_shell():
+            return FileResponse(entry)
+
+        for path in ("/cbir", "/sharing", "/boolean", "/percobaan", "/inspector"):
+            app.add_api_route(path, frontend_shell, methods=["GET", "HEAD"], include_in_schema=False)
     if dist_dir.is_dir():
         app.mount("/", StaticFiles(directory=dist_dir, html=True), name="frontend")
     return app
