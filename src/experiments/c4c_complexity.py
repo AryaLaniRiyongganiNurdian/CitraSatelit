@@ -8,6 +8,7 @@ def run(data):
     rng = np.random.default_rng(data.seed)
     n = len(data.rows)
     sizes = [10, 20, n] if data.smoke else [100, 300, 1000, 3000, 10000, 27000]
+    sizes = sorted({min(size, n) for size in sizes})
     order = rng.permutation(n)
     query_ids = data.sample(1, data.classes, 5)
     rows = []
@@ -25,10 +26,11 @@ def run(data):
 
     x, y, _, _ = np.asarray(rows).T
     dx, dy = x - x.mean(), y - y.mean()
-    slope = float(np.sum(dx * dy) / np.sum(dx ** 2))
-    residuals = dy - slope * dx
+    spread = float(dx @ dx)
+    slope = float((dx @ dy) / spread) if spread else None
+    residuals = dy - slope * dx if slope is not None else dy
     total = float(np.sum(dy ** 2))
-    r_squared = 1 - float(np.sum(residuals ** 2)) / total if total else None
+    r_squared = 1 - float(np.sum(residuals ** 2)) / total if total and slope is not None else None
     charts = [{"kind": "line", "title": "Waktu pencarian", "x": sizes,
                "series": [{"name": "ms/query", "y": y.tolist()}]}]
     findings = [f"Pada N={sizes[-1]}, rata-rata scan {rows[-1][2]:.1f} perbandingan; teori {rows[-1][3]:.1f}."]

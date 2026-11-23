@@ -3,6 +3,10 @@
 
 # Generated data
 /artifacts/
+/eurosat_subset_v1.zip
+/eurosat_subset_v1.zip.sha256
+/.colab-cache/
+.ipynb_checkpoints/
 /results/
 
 # Python caches

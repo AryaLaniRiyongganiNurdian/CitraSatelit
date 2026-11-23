@@ -2,7 +2,7 @@
 
 ## Masih terbuka
 
-- **Google Colab (M9).** CTA membuka beranda Google Colab sampai URL notebook proyek tersedia. Isi `VITE_COLAB_NOTEBOOK_URL` setelah notebook dipublikasikan.
+- **Publikasi Colab.** `notebooks/citrasatelit.ipynb` dan pengemas subset sudah tersedia. Jalankan `python -m tools.make_colab_subset` untuk menghasilkan ZIP dan `.sha256` di `artifacts/`. Notebook dapat memakai ZIP yang diunggah ke `/content` atau URL rilis melalui `COLAB_SUBSET_URL`, dengan `COLAB_SUBSET_MIRROR` opsional. CTA Beranda membuka beranda Colab hingga `VITE_COLAB_NOTEBOOK_URL` diisi dengan URL notebook yang dipublikasikan.
 - **Metrik unggah ulang satu band.** `/api/sharing/reconstruct-upload` dapat menggabungkan share satu band dan mengembalikan pratinjau. Form API belum mempunyai `band_index` untuk menentukan citra pembanding. Workbench menampilkan metrik pembanding sebagai belum tersedia.
 - **Galat unduhan langsung.** Tautan PNG dan NPY membuka respons biner di browser. Operasi JSON yang mengembalikan `SESSION_NOT_FOUND` menampilkan tombol **Buat ulang sesi** dan memakai parameter pembagian terakhir.
 - **Artefak C4b.** API menyediakan tabel pengukuran dan temuan untuk C4b. Daftar grafik pada artefak C4b kosong.

@@ -3,7 +3,7 @@
 ## M0 (ditutup 2026-11-22)
 
 - Manifest melewati file yang namanya di luar pola ID EuroSAT dan melaporkan jumlah serta contoh nama file. Dataset lokal memiliki 597 TIFF tambahan di folder `SeaLake` (85 `Bombay_` dan 512 `Jakarta_`).
-- `tools/make_colab_subset.py` tetap berupa kerangka pada M0. Implementasi pembuat arsip dijadwalkan sebelum M9.
+- `tools/make_colab_subset.py` selesai pada M9 (2026-11-23). Arsip lokal memuat 2.000 pasangan, manifest subset, indeks, skala dari split latih, paket thumbnail, dan SHA-256. Publikasi ZIP dan berkas `.sha256` mengikuti langkah manual rilis.
 
 ## M1 (ditutup 2026-11-22) - Input vektor Bayes dari slide
 
