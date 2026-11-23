@@ -1,0 +1,7 @@
+.circuit-scroll { min-width: 0; overflow-x: auto; border: var(--hairline) solid var(--border); background: var(--background); }
+.circuit-svg { display: block; max-width: none; }
+.circuit-wire { fill: none; stroke: var(--workbench-line-emphasis); stroke-width: 2; }
+.circuit-gate { fill: var(--card); stroke: var(--foreground); stroke-width: 1.5; }
+.circuit-gate text, .circuit-output-label { fill: var(--foreground); stroke: none; font: 400 11px var(--font-label); }
+.circuit-gate text { text-anchor: middle; }
+.circuit-output { fill: var(--foreground); }

@@ -1,0 +1,9 @@
+.experiment-charts { display: grid; gap: 20px; min-width: 0; }
+.experiment-analysis { display: grid; gap: 12px; min-width: 0; }
+.experiment-analysis p { white-space: pre-line; overflow-wrap: anywhere; }
+.experiment-analysis ul, .experiment-findings { list-style: disc; padding-inline-start: 1.3em; }
+.experiment-analysis ol { list-style: decimal; padding-inline-start: 1.3em; }
+.experiment-analysis code { font-family: var(--font-label); }
+.experiment-params { min-width: 0; }
+.experiment-params summary { cursor: pointer; }
+.experiment-params pre { margin-top: 8px; padding: 10px; color: var(--workbench-copy); background: var(--background); overflow: auto; font-family: var(--font-label); }

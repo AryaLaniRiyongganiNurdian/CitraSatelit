@@ -1,0 +1,186 @@
+{
+  "title": "C4a — Modalitas pada kelas mirip",
+  "description": "Perbandingan mode pada kelas terpilih.",
+  "params": {
+    "modes": [
+      "gray",
+      "rgb",
+      "hsv",
+      "ms13",
+      "ndvi_ndwi",
+      "ms13_idx",
+      "grid2",
+      "grid4",
+      "mle",
+      "ms_mle"
+    ],
+    "bins": 32,
+    "seed": 42,
+    "all_queries": false
+  },
+  "dataset": {
+    "n_images": 27000,
+    "n_queries": 200,
+    "note": "EuroSAT lokal"
+  },
+  "tables": [
+    {
+      "columns": [
+        "Mode",
+        "Metrik",
+        "P@5",
+        "Akurasi"
+      ],
+      "rows": [
+        [
+          "gray",
+          "chi2",
+          0.755,
+          0.795
+        ],
+        [
+          "gray",
+          "euclid",
+          0.744,
+          0.815
+        ],
+        [
+          "rgb",
+          "chi2",
+          0.899,
+          0.925
+        ],
+        [
+          "rgb",
+          "euclid",
+          0.876,
+          0.905
+        ],
+        [
+          "hsv",
+          "chi2",
+          0.933,
+          0.95
+        ],
+        [
+          "hsv",
+          "euclid",
+          0.912,
+          0.935
+        ],
+        [
+          "ms13",
+          "chi2",
+          0.951,
+          0.96
+        ],
+        [
+          "ms13",
+          "euclid",
+          0.924,
+          0.93
+        ],
+        [
+          "ndvi_ndwi",
+          "chi2",
+          0.852,
+          0.89
+        ],
+        [
+          "ndvi_ndwi",
+          "euclid",
+          0.823,
+          0.84
+        ],
+        [
+          "ms13_idx",
+          "chi2",
+          0.95,
+          0.955
+        ],
+        [
+          "ms13_idx",
+          "euclid",
+          0.926,
+          0.935
+        ],
+        [
+          "grid2",
+          "euclid",
+          0.817,
+          0.84
+        ],
+        [
+          "grid4",
+          "euclid",
+          0.674,
+          0.675
+        ],
+        [
+          "mle",
+          "euclid",
+          0.9,
+          0.92
+        ],
+        [
+          "ms_mle",
+          "euclid",
+          0.94,
+          0.965
+        ]
+      ]
+    }
+  ],
+  "charts": [
+    {
+      "kind": "heatmap",
+      "title": "ms13 chi2",
+      "z": [
+        [
+          46,
+          0,
+          4,
+          0
+        ],
+        [
+          0,
+          49,
+          1,
+          0
+        ],
+        [
+          1,
+          0,
+          49,
+          0
+        ],
+        [
+          0,
+          0,
+          2,
+          48
+        ]
+      ],
+      "x_labels": [
+        "AnnualCrop",
+        "Forest",
+        "HerbaceousVegetation",
+        "Pasture"
+      ],
+      "y_labels": [
+        "AnnualCrop",
+        "Forest",
+        "HerbaceousVegetation",
+        "Pasture"
+      ]
+    }
+  ],
+  "findings": [
+    "ms13 dengan chi2 mencapai P@5 0.9510.",
+    "Peluang acak untuk 4 kelas adalah 0.2500."
+  ],
+  "analysis_md": "ms13 dengan chi2 mencapai P@5 0.9510. Peluang acak untuk 4 kelas adalah 0.2500.",
+  "id": "C4a",
+  "generated_at": "2026-11-22T14:41:32.286699+00:00",
+  "runtime_s": 13.070307
+}

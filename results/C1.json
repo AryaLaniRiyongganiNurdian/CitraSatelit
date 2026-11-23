@@ -1,0 +1,111 @@
+{
+  "title": "C1 — Pengaruh bin",
+  "description": "Pencarian histogram RGB dengan chi-square.",
+  "params": {
+    "bins": [
+      8,
+      16,
+      32,
+      64,
+      128,
+      256
+    ],
+    "metric": "chi2",
+    "seed": 42,
+    "all_queries": false
+  },
+  "dataset": {
+    "n_images": 27000,
+    "n_queries": 500,
+    "note": "EuroSAT lokal"
+  },
+  "tables": [
+    {
+      "columns": [
+        "Bin",
+        "Dimensi",
+        "P@5",
+        "Ekstraksi ms",
+        "Pencarian ms"
+      ],
+      "rows": [
+        [
+          8,
+          24,
+          0.6504,
+          0.123715,
+          3.875416
+        ],
+        [
+          16,
+          48,
+          0.714,
+          0.12541,
+          4.875684
+        ],
+        [
+          32,
+          96,
+          0.7432,
+          0.124027,
+          12.42044
+        ],
+        [
+          64,
+          192,
+          0.7416,
+          0.126862,
+          16.130538
+        ],
+        [
+          128,
+          384,
+          0.7352,
+          0.12769,
+          28.684262
+        ],
+        [
+          256,
+          768,
+          0.7348,
+          0.126804,
+          61.106134
+        ]
+      ]
+    }
+  ],
+  "charts": [
+    {
+      "kind": "line",
+      "title": "Precision@5 menurut jumlah bin",
+      "x": [
+        8,
+        16,
+        32,
+        64,
+        128,
+        256
+      ],
+      "series": [
+        {
+          "name": "Precision@5",
+          "y": [
+            0.6504,
+            0.714,
+            0.7432,
+            0.7416,
+            0.7352,
+            0.7348
+          ]
+        }
+      ]
+    }
+  ],
+  "findings": [
+    "Bin 32 mencapai P@5 tertinggi sebesar 0.7432."
+  ],
+  "analysis_md": "Bin 32 mencapai P@5 tertinggi sebesar 0.7432.",
+  "id": "C1",
+  "generated_at": "2026-11-22T14:41:32.286699+00:00",
+  "runtime_s": 65.309509
+}
