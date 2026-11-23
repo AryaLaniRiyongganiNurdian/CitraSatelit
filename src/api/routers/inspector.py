@@ -27,9 +27,14 @@ def pixel_xor(req: s.PixelXorRequest, request: Request):
     shares = split_xor(original, req.n, np.random.default_rng(data.settings.seed if req.seed is None else req.seed))
     restored = int(reconstruct_xor(shares))
     value = int(original)
-    return dict(value=value, value_bin=f"{value:0{bits}b}",
-                shares=[dict(index=i, value=int(share), bin=f"{int(share):0{bits}b}")
-                        for i, share in enumerate(shares)],
-                reconstructed=restored, ok=restored == value,
-                inspector=explain("XOR piksel", "binary", "xor", "reconstruct",
-                                  detail={"binary": {"values": {"nilai": value, "bit": bits}}}))
+    value_bin = f"{value:0{bits}b}"
+    share_rows = [dict(index=i, value=int(share), bin=f"{int(share):0{bits}b}") for i, share in enumerate(shares)]
+    xor_terms = r" \oplus ".join(rf"\mathtt{{{row['bin']}}}" for row in share_rows)
+    detail = {
+        "binary": {"values": {"nilai": value, "biner": value_bin, "bit": bits}},
+        "xor": {"latex_template": r"S = S_1 \oplus \dots \oplus S_n",
+                "latex_substituted": rf"{xor_terms} = \mathtt{{{restored:0{bits}b}}}"},
+        "reconstruct": {"values": {"hasil XOR": restored}},
+    }
+    return dict(value=value, value_bin=value_bin, shares=share_rows, reconstructed=restored, ok=restored == value,
+                inspector=explain("XOR piksel", "binary", "xor", "reconstruct", detail=detail))

@@ -56,6 +56,7 @@ Aturan: `latex_*` kompatibel KaTeX; `explanation` Bahasa Indonesia; langkah sela
 | `POST /sharing/attacks/reuse-key` | `ReuseKeyRequest` | `ReuseKeyResponse` | `encrypt`, `xor-of-ciphers`, `leak` |
 | `POST /sharing/attacks/raid5` | `Raid5Request` | `Raid5Response` | `parity`, `recover`, `limit` |
 | `POST /inspector/pixel-xor` | `PixelXorRequest` | `PixelXorResponse` | `binary`, `xor`, `reconstruct` |
+| `GET /boolean/laws` | - | `BooleanLaw[]` | - |
 | `POST /boolean/truth-table` | `TruthTableRequest` | `TruthTableResponse` | `parse`, `table`, `sop` |
 | `POST /boolean/prove` | `ProveRequest` | `ProveResponse` | `table-proof`, `algebraic` (jika ada), `dual` |
 | `POST /boolean/xor-gate` | `{}` | `XorGateResponse` | `definition`, `table`, `circuit` |
@@ -86,7 +87,8 @@ Aturan: `latex_*` kompatibel KaTeX; `explanation` Bahasa Indonesia; langkah sela
 
 **Boolean**
 - Variabel satu huruf; maksimum 6 (tabel), 4 (K-Map). `minterms` K-Map dalam rentang `0..2^variables-1`; urutan bit: variabel pertama = bit paling signifikan.
-- `prove.algebraic_proof` hanya terisi untuk identitas di katalog.
+- `prove.algebraic_proof` hanya terisi untuk identitas di katalog. `GET /boolean/laws` menyajikan kedua sisi identitas dan langkah `ProofStep` dari katalog yang sama.
+- Evaluasi ekspresi dan rangkaian memakai `truth-table`. Ekuivalensi dan dualitas memakai `prove`. Definisi dan rangkaian XOR tersedia di `xor-gate`.
 
 **Percobaan**
 - `GET /cbir/evaluate` hanya melayani kombinasi terhitung: semua pasangan mode-metrik yang valid pada `bins=32`, dan `mode=rgb` untuk semua `bins`. Selain itu `NOT_PRECOMPUTED` dengan `details.available`.

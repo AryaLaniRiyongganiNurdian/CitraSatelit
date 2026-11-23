@@ -1,0 +1,38 @@
+.inspector-drawer[data-slot="dialog-content"] {
+  inset: 0 0 0 auto;
+  translate: none;
+  align-content: start;
+  justify-items: stretch;
+  width: min(100%, 672px);
+  max-width: none;
+  max-height: none;
+  overflow: auto;
+  padding: clamp(16px, 3vw, 32px);
+  border-width: 0 0 0 var(--hairline);
+  animation: inspector-enter 180ms ease-out;
+}
+.inspector-drawer[data-slot="dialog-content"] > * { min-width: 0; }
+.inspector-drawer-header {
+  display: grid;
+  gap: 8px;
+  border-bottom: var(--hairline) solid var(--border);
+  padding: 0 32px 15px 0;
+}
+.inspector-drawer-header [data-slot="dialog-title"] { font-size: clamp(24px, 4vw, 38px); }
+.inspector-drawer [data-slot="dialog-close"] { color: var(--foreground); }
+.inspector-view { min-width: 0; display: grid; gap: 10px; }
+.inspector-view > h3 { margin: 0 0 6px; font-size: 22px; font-weight: 400; line-height: 1.15; }
+.inspector-step { min-width: 0; border: var(--hairline) solid var(--border); background: var(--background); }
+.inspector-step > summary { cursor: pointer; padding: 12px; overflow-wrap: anywhere; }
+.inspector-step > summary::marker { color: var(--muted-foreground); }
+.inspector-step > summary > code { margin-left: 12px; color: var(--muted-foreground); font: 400 11px/1.35 var(--font-label); }
+.inspector-step-body { min-width: 0; display: grid; gap: 14px; border-top: var(--hairline) solid var(--border); padding: 12px; }
+.inspector-step-body > p { margin: 0; }
+.inspector-formula { margin: 0; min-width: 0; border: var(--hairline) solid var(--border); padding: 10px; background: var(--card); }
+.inspector-formula > div { max-width: 100%; overflow-x: auto; }
+.inspector-formula .katex-display { min-width: max-content; margin: 8px auto; padding-inline: 6px; }
+.inspector-skeleton { min-height: 48px; background: var(--workbench-line); }
+.inspector-sources { display: grid; gap: 14px; }
+.inspector-shortcuts { margin-top: 10px; }
+@keyframes inspector-enter { from { transform: translateX(100%); } to { transform: translateX(0); } }
+@media (prefers-reduced-motion: reduce) { .inspector-drawer[data-slot="dialog-content"] { animation: none; } }

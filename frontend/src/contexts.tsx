@@ -9,10 +9,12 @@ type SharingState = {
   setSession: (session: SharingSession | null) => void;
   expireSession: (id: string) => void;
 };
-type InspectorPage = "cbir" | "sharing" | "boolean" | "percobaan" | "inspector";
+export type WorkbenchSource = "cbir" | "sharing" | "boolean";
+export type InspectorSource = WorkbenchSource | "inspector";
 type InspectorState = {
-  latest: Partial<Record<InspectorPage, Inspector>>;
-  setLatest: (page: InspectorPage, inspector: Inspector) => void;
+  latest: Partial<Record<InspectorSource, Inspector>>;
+  activeSource: InspectorSource | null;
+  setLatest: (page: InspectorSource, inspector: Inspector) => void;
 };
 
 export const SharingContext = createContext<SharingState | null>(null);
@@ -35,15 +37,19 @@ export function AppProviders({ children, queryClient }: { children: ReactNode; q
     defaultOptions: { queries: { staleTime: Infinity, retry: false } },
   }));
   const [session, setSession] = useState<SharingSession | null>(null);
-  const [latest, setInspectors] = useState<InspectorState["latest"]>({});
+  const [inspectors, setInspectors] = useState<Pick<InspectorState, "latest" | "activeSource">>({
+    latest: {}, activeSource: null,
+  });
   const expireSession = useCallback((id: string) => {
     setSession((current) => current?.session_id === id && !current.expired ? { ...current, expired: true } : current);
   }, []);
   const setLatest = useCallback<InspectorState["setLatest"]>((page, value) => {
-    setInspectors((current) => current[page] === value ? current : { ...current, [page]: value });
+    setInspectors((current) => current.latest[page] === value && current.activeSource === page ? current : {
+      latest: { ...current.latest, [page]: value }, activeSource: page,
+    });
   }, []);
   const sharing = useMemo(() => ({ session, setSession, expireSession }), [session, expireSession]);
-  const inspector = useMemo(() => ({ latest, setLatest }), [latest, setLatest]);
+  const inspector = useMemo(() => ({ ...inspectors, setLatest }), [inspectors, setLatest]);
 
   return (
     <QueryClientProvider client={client}>

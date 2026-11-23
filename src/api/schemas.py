@@ -715,6 +715,12 @@ class ProofStep(Model):
     reason: str
 
 
+class BooleanLaw(Model):
+    lhs: str
+    rhs: str
+    steps: list[ProofStep]
+
+
 class ProveResponseCounterexample(Model):
     inputs: list[Literal[0, 1]]
     lhs: Literal[0, 1]

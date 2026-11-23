@@ -1,7 +1,7 @@
 import { hashKey, useMutation, useQuery, type QueryKey } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { useInspector } from "@/contexts";
+import { useInspector, type InspectorSource } from "@/contexts";
 import { ApiError, get } from "@/lib/api";
 import { useQueryError } from "@/lib/home-data";
 import type { ClassName, Inspector, MetaResponse } from "@/types/api";
@@ -36,7 +36,7 @@ export function isSessionNotFound(error: unknown) {
   return error instanceof ApiError && error.code === "SESSION_NOT_FOUND";
 }
 
-export function useInspectorResult(page: "cbir" | "sharing", inspector: Inspector | undefined, updatedAt?: number) {
+export function useInspectorResult(page: InspectorSource, inspector: Inspector | undefined, updatedAt?: number) {
   const { setLatest } = useInspector();
   useEffect(() => {
     if (inspector) setLatest(page, inspector);

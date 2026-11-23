@@ -3,7 +3,7 @@ import { MemoryRouter } from "react-router-dom";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { App } from "./app";
 import { AppProviders } from "./contexts";
-import type { ExperimentSummary, ImageMeta } from "./types/api";
+import type { ExperimentResult, ExperimentSummary, ImageMeta, KMapResponse } from "./types/api";
 
 vi.mock("@/components/magicui/number-ticker", () => ({ NumberTicker: () => null }));
 
@@ -14,19 +14,28 @@ const river = {
 } satisfies ImageMeta;
 const meta = { dataset: { n_total: 27000 }, classes: ["Forest", "River"], class_labels_id: { River: "Sungai" } };
 const experiment = {
+  id: "C2", title: "Metode", description: "Uji", generated_at: "2026-11-23T00:00:00Z",
+  runtime_s: 1, params: {}, dataset: { n_images: 27000, n_queries: 500, note: "" },
   tables: [{ columns: ["Metode", "P@5", "Akurasi"], rows: [["rgb euclid", 0.72, 0.76], ["rgb chi2", 0.7432, 0.796]] }],
-};
+  charts: [], findings: [], analysis_md: "",
+} satisfies ExperimentResult;
+const kmap = {
+  variables: ["a", "b", "c"], row_vars: ["a"], col_vars: ["b", "c"], row_labels: ["0", "1"], col_labels: ["00", "01", "11", "10"],
+  grid: [[0, 0, 0, 0], [0, 0, 0, 0]], cell_minterm: [[0, 1, 3, 2], [4, 5, 7, 6]], prime_implicants: [],
+  selected: [], simplified: "0", inspector: { title: "Peta Karnaugh", steps: [] },
+} satisfies KMapResponse;
 
 function app(path = "/") {
   return render(<AppProviders><MemoryRouter initialEntries={[path]}><App /></MemoryRouter></AppProviders>);
 }
 
-function mockApi(overrides: Record<string, Response> = {}) {
+function mockApi(overrides: Record<string, Response | Promise<Response>> = {}) {
   const data: Record<string, unknown> = {
     "/api/meta": meta,
     "/api/experiments": summary,
     "/api/experiments/C2": experiment,
     "/api/images": { total: 1, items: [river] },
+    "/api/boolean/kmap": kmap,
   };
   const mock = vi.fn<typeof fetch>(async (input) => {
     const path = String(input).split("?")[0] ?? "";
@@ -46,7 +55,7 @@ describe("Beranda dan navigasi", () => {
     const nav = within(screen.getByRole("navigation", { name: "Navigasi utama" }));
     expect(nav.getAllByRole("link")).toHaveLength(6);
     expect(nav.getByRole("link", { name: "Beranda" })).toHaveAttribute("aria-current", "page");
-    expect(screen.getByRole("heading", { name: /bumi, dalam fokus/i })).toBeVisible();
+    expect(await screen.findByRole("heading", { name: /bumi, dalam fokus/i })).toBeVisible();
     expect(await screen.findByText("27.000")).toBeInTheDocument();
     expect(await screen.findByText("79,6%")).toBeVisible();
     expect(fetchMock).toHaveBeenCalledWith("/api/experiments/C2", expect.objectContaining({ signal: expect.any(AbortSignal) }));
@@ -73,10 +82,16 @@ describe("Beranda dan navigasi", () => {
   });
 
   it("menampilkan skeleton saat galeri dimuat dan memberi label yang tepat pada citra pengganti", async () => {
-    mockApi();
+    let resume = () => {};
+    const waiting = new Promise<void>((resolve) => { resume = resolve; });
+    mockApi({
+      "/api/meta": waiting.then(() => Response.json(meta)),
+      "/api/images": waiting.then(() => Response.json({ total: 1, items: [river] })),
+    });
     app();
-    expect(screen.getByLabelText("Memuat galeri EuroSAT")).toBeVisible();
+    expect(await screen.findByLabelText("Memuat galeri EuroSAT")).toBeVisible();
     expect(screen.getByLabelText("Memuat citra terindeks")).toBeVisible();
+    resume();
 
     await screen.findByText("79,6%");
     fireEvent.change(screen.getByRole("textbox", { name: "Cari ID atau kelas citra" }), { target: { value: "Sungai" } });
@@ -88,14 +103,15 @@ describe("Beranda dan navigasi", () => {
     expect(screen.getByText("Citra EuroSAT tidak dapat dimuat. Menampilkan citra referensi.")).toBeVisible();
   });
 
-  it("membuka setiap rute placeholder secara langsung", () => {
+  it("membuka Lab, Percobaan, dan Inspektor secara langsung", async () => {
+    mockApi();
     const pages = [
       ["/boolean", "Lab Boolean"],
       ["/percobaan", "Percobaan"], ["/inspector", "Inspektor Matematika"],
     ] as const;
     for (const [path, title] of pages) {
       const entry = app(path);
-      expect(within(entry.container).getByRole("heading", { name: title, level: 1 })).toBeVisible();
+      expect(await within(entry.container).findByRole("heading", { name: title, level: 1 })).toBeVisible();
       entry.unmount();
     }
   });

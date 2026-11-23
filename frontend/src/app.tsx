@@ -5,19 +5,22 @@ import arrow from "@/assets/arrow.svg";
 import disc from "@/assets/orbital-disc.svg";
 import external from "@/assets/diagonal-external.svg";
 import { Button } from "@/components/ui/button";
-import { Home } from "@/pages/home";
 import { Skeleton } from "@/components/ui/skeleton";
 
+const Home = lazy(() => import("@/pages/home").then((module) => ({ default: module.Home })));
+const BooleanPage = lazy(() => import("@/pages/boolean").then((module) => ({ default: module.BooleanPage })));
+const ExperimentsPage = lazy(() => import("@/pages/experiments").then((module) => ({ default: module.ExperimentsPage })));
+const InspectorPage = lazy(() => import("@/pages/inspector").then((module) => ({ default: module.InspectorPage })));
 const CbirPage = lazy(() => import("@/pages/cbir").then((module) => ({ default: module.CbirPage })));
 const SharingPage = lazy(() => import("@/pages/sharing").then((module) => ({ default: module.SharingPage })));
 
 const routes = [
-  { path: "/", label: "Beranda", description: "" },
-  { path: "/cbir", label: "CBIR", description: "Pencarian citra berdasarkan kemiripan fitur." },
-  { path: "/sharing", label: "Berbagi Rahasia", description: "Pembagian dan rekonstruksi citra dengan XOR." },
-  { path: "/boolean", label: "Lab Boolean", description: "Eksperimen tabel kebenaran, gerbang logika, dan peta Karnaugh." },
-  { path: "/percobaan", label: "Percobaan", description: "Perbandingan metode dan hasil pengukuran C1–C4c." },
-  { path: "/inspector", label: "Inspektor Matematika", description: "Rumus dan langkah perhitungan dari hasil eksplorasi." },
+  { path: "/", label: "Beranda" },
+  { path: "/cbir", label: "CBIR" },
+  { path: "/sharing", label: "Berbagi Rahasia" },
+  { path: "/boolean", label: "Lab Boolean" },
+  { path: "/percobaan", label: "Percobaan" },
+  { path: "/inspector", label: "Inspektor Matematika" },
 ] as const;
 
 function Wordmark() {
@@ -55,13 +58,11 @@ function Footer() {
   </footer>;
 }
 
-function WorkbenchPlaceholder({ title, description }: { title: string; description: string }) {
+function NotFound() {
   return <section className="workbench placeholder">
     <div className="wrap">
-      <span className="mono dim">CitraSatelit / {title}</span>
-      <h1>{title}</h1>
-      <p>{description}</p>
-      <div className="placeholder-status mono">Ruang kerja sedang disiapkan.</div>
+      <h1>Halaman tidak ditemukan</h1>
+      <p>Periksa kembali alamat yang dibuka.</p>
       <Button asChild variant="outline"><Link to="/">Kembali ke Beranda <ArrowUpRight aria-hidden /></Link></Button>
     </div>
   </section>;
@@ -92,10 +93,10 @@ export function App() {
             <Route path="/" element={<Home />} />
             <Route path="/cbir" element={<CbirPage />} />
             <Route path="/sharing" element={<SharingPage />} />
-            {routes.slice(3).map(({ path, label, description }) => (
-              <Route key={path} path={path} element={<WorkbenchPlaceholder title={label} description={description} />} />
-            ))}
-            <Route path="*" element={<WorkbenchPlaceholder title="Halaman tidak ditemukan" description="Periksa kembali alamat yang dibuka." />} />
+            <Route path="/boolean" element={<BooleanPage />} />
+            <Route path="/percobaan" element={<ExperimentsPage />} />
+            <Route path="/inspector" element={<InspectorPage />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
       </main>

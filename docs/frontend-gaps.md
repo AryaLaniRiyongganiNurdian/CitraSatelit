@@ -10,4 +10,10 @@
 
 - **Metrik unggah ulang satu band.** Endpoint `/api/sharing/reconstruct-upload` bisa menggabungkan share satu band dan mengembalikan pratinjau. Form API belum mempunyai `band_index` untuk menentukan citra pembanding. Workbench menampilkan metrik pembanding sebagai belum tersedia untuk skenario ini.
 - **Unduhan dan sesi kedaluwarsa.** Tautan PNG dan NPY membuka respons biner secara langsung. Galat dari unduhan dibuka oleh browser. Operasi JSON yang mengembalikan `SESSION_NOT_FOUND` menampilkan tombol **Buat ulang sesi** dan memakai parameter pembagian terakhir.
-- **Math Inspector.** CBIR dan Berbagi Rahasia menyimpan payload komputasi terakhir dan menautkan ke `/inspector`. Perender rumus dan langkah hitung mengikuti M8.3.
+- **Math Inspector.** Payload terakhir CBIR dan Berbagi Rahasia kini tampil di drawer dan halaman penuh sejak M8.3.
+
+## Catatan integrasi M8.3
+
+- **Field rumus.** API menyimpan rumus umum di `latex_template` dan hasil substitusinya di `latex_substituted`. Keduanya dirender dengan KaTeX.
+- **Endpoint Boolean.** Evaluasi dan rangkaian dilayani oleh `/api/boolean/truth-table`. Ekuivalensi dan dualitas dilayani oleh `/api/boolean/prove`. Katalog delapan identitas tersedia di `GET /api/boolean/laws` dari data `LAW_PROOFS`.
+- **Riwayat Inspektor.** Halaman Inspektor menampilkan payload komputasi terakhir per sumber selama sesi aplikasi aktif. Endpoint `/api/inspector/pixel-xor` menyediakan demo yang dapat mengisi sumber XOR piksel.

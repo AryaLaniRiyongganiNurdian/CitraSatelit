@@ -294,6 +294,7 @@ export interface TruthTableResponse {
 }
 export interface ProveRequest { lhs: string; rhs: string }
 export interface ProofStep { expression: string; reason: string }
+export interface BooleanLaw { lhs: string; rhs: string; steps: ProofStep[] }
 export interface ProveResponse {
   equivalent: boolean; variables: string[]; table: MathTable;
   counterexample: { inputs: (0 | 1)[]; lhs: 0 | 1; rhs: 0 | 1 } | null;

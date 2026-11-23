@@ -1,8 +1,6 @@
 import { useId, type ComponentProps, type ReactNode } from "react";
-import { ArrowUpRight } from "lucide-react";
-import { Link } from "react-router-dom";
-import { useInspector } from "@/contexts";
-import { Button } from "@/components/ui/button";
+import type { WorkbenchSource } from "@/contexts";
+import { InspectorDrawer } from "@/components/inspector-drawer";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -15,22 +13,19 @@ import "./workbench.css";
 export function Workbench({ title, description, page, links, children }: {
   title: string;
   description: string;
-  page: "cbir" | "sharing";
-  links: { id: string; title: string }[];
+  page?: WorkbenchSource;
+  links?: { id: string; title: string }[];
   children: ReactNode;
 }) {
-  const { latest } = useInspector();
   return <section className="workbench lab">
     <div className="wrap">
       <div className="lab-hero">
         <div><p className="mono dim">Ruang kerja EuroSAT</p><h1>{title}</h1><p>{description}</p></div>
-        {latest[page] && <Button asChild variant="outline">
-          <Link to="/inspector" state={{ source: page }}>Buka Math Inspector <ArrowUpRight aria-hidden /></Link>
-        </Button>}
+        {page && <InspectorDrawer source={page} />}
       </div>
-      <nav className="lab-nav mono" aria-label={"Bagian " + title}>
+      {links?.length ? <nav className="lab-nav mono" aria-label={"Bagian " + title}>
         {links.map((link) => <a key={link.id} href={"#" + link.id}>{link.title}</a>)}
-      </nav>
+      </nav> : null}
       {children}
     </div>
   </section>;

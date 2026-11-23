@@ -1710,6 +1710,78 @@
         }
       }
     },
+    "/api/boolean/laws": {
+      "get": {
+        "summary": "Laws",
+        "operationId": "laws_api_boolean_laws_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/BooleanLaw"
+                  },
+                  "type": "array",
+                  "title": "Response Laws Api Boolean Laws Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Content Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/boolean/truth-table": {
       "post": {
         "summary": "Truth",
@@ -2994,6 +3066,33 @@
           "file"
         ],
         "title": "Body_upload_api_images_upload_post"
+      },
+      "BooleanLaw": {
+        "properties": {
+          "lhs": {
+            "type": "string",
+            "title": "Lhs"
+          },
+          "rhs": {
+            "type": "string",
+            "title": "Rhs"
+          },
+          "steps": {
+            "items": {
+              "$ref": "#/components/schemas/ProofStep"
+            },
+            "type": "array",
+            "title": "Steps"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "lhs",
+          "rhs",
+          "steps"
+        ],
+        "title": "BooleanLaw"
       },
       "ChannelStats": {
         "properties": {

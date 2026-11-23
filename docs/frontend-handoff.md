@@ -20,7 +20,7 @@ Otoritas: Figma di `docs/design` untuk tata letak, warna, dan tipografi. `docs/a
 | `/` | Beranda | `HeroTwoTracks`, kartu ringkasan (jumlah citra, kelas, hasil terbaik C2), tautan ke Colab | `GET /meta`, `GET /experiments` |
 | `/cbir` | CBIR | `ImagePicker` (galeri + upload), `FeatureControls` (mode, bins, metrik, k, database), `QueryPanel` (histogram per kanal, momen, MLE, MGF), `ResultGrid`, `EvalPanel` (P@5 per kelas, confusion), `LivePanel`, `BayesPanel` | `GET /images`, `POST /images/upload`, `POST /cbir/features`, `/cbir/search`, `/cbir/bayes`, `/cbir/gnb`, `GET /cbir/evaluate`, `POST /live/cbir`, `/live/bins` |
 | `/sharing` | Secret Sharing | `ImagePicker`, `ShareControls` (n, band_mode, band_index, seed), `ShareGallery`, `ReconstructPanel` (centang share), `DownloadUploadPanel`, `TamperPanel`, `SecurityPanel`, `BitflipPanel`, `AttackTabs` (Reuse Key, RAID-5) | `POST /sharing/split`, `GET .../download`, `POST /sharing/reconstruct`, `/reconstruct-upload`, `/tamper`, `/security`, `/bitflip`, `/attacks/*` |
-| `/boolean` | Boolean Lab | `ExpressionInput` (dengan tombol `'`, `+`, `^`), `TruthTable`, `CircuitView` (SVG dari `Circuit`), `ProveForm`, `XorGateDemo`, `KMapEditor` (klik sel mengatur minterm) dan `KMapView` (kelompok berwarna) | `POST /boolean/*` |
+| `/boolean` | Boolean Lab | `ExpressionInput` (dengan tombol `'`, `+`, `^`), `TruthTable`, `CircuitView` (SVG dari `Circuit`), `ProveForm`, `XorGateDemo`, `KMapEditor` (klik sel mengatur minterm) dan `KMapView` (kelompok berwarna) | `POST /boolean/*`, `GET /boolean/laws` |
 | `/percobaan` | Percobaan | tab C1..C4c, `ExperimentRenderer` generik (tabel, grafik, temuan, analisis) | `GET /experiments`, `GET /experiments/{id}` |
 | `/inspector` | Math Inspector | pilih sumber (hasil terakhir dari CBIR, Sharing, Boolean atau `pixel-xor` bebas) dan render `InspectorView` penuh layar | `POST /inspector/pixel-xor`, dan `inspector` dari respons lain |
 
@@ -358,6 +358,7 @@ export interface TruthTableResponse {
 }
 export interface ProveRequest { lhs: string; rhs: string }
 export interface ProofStep { expression: string; reason: string }
+export interface BooleanLaw { lhs: string; rhs: string; steps: ProofStep[] }
 export interface ProveResponse {
   equivalent: boolean; variables: string[]; table: MathTable;
   counterexample: { inputs: (0 | 1)[]; lhs: 0 | 1; rhs: 0 | 1 } | null;

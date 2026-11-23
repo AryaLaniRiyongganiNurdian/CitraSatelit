@@ -114,6 +114,19 @@ def test_sharing_round_trip_and_demos(client):
     error(client.post("/api/sharing/reconstruct", json=req), 404, "SESSION_NOT_FOUND")
 
 
+def test_boolean_laws(client):
+    response = client.get("/api/boolean/laws")
+    assert response.status_code == 200
+    laws = response.json()
+    assert len(laws) >= 8
+    for law in laws:
+        assert law["steps"][0]["expression"] == law["lhs"]
+        assert law["steps"][-1]["expression"] == law["rhs"]
+        proof = client.post("/api/boolean/prove", json={key: law[key] for key in ("lhs", "rhs")})
+        assert proof.status_code == 200
+        assert proof.json()["equivalent"] is True
+
+
 def test_boolean(client):
     ok(client.post("/api/boolean/truth-table", json={"expression": "a^b"}), ("parse", "table", "sop"))
     ok(client.post("/api/boolean/prove", json={"lhs": "a+a'b", "rhs": "a+b"}), ("table-proof", "algebraic", "dual"))
