@@ -1,5 +1,6 @@
 import csv
 import io
+import shutil
 from time import monotonic
 
 import numpy as np
@@ -196,6 +197,25 @@ def test_space_index_features_work_without_raw_nongallery_tiff(fixture_data, tmp
         error(browser.post("/api/sharing/split", json=dict(image_id="Forest_0", n=2, band_mode="ms13")),
               422, "MODE_REQUIRES_MULTISPECTRAL")
         assert ok(browser.post("/api/cbir/features", json=dict(image_id="Forest_0", bins=32, mode="ms13")))["dim"] == 416
+
+
+def test_space_gallery_discovery_without_manifest(fixture_data, tmp_path):
+    root, settings = fixture_data
+    artifacts = tmp_path / "artifacts"
+    artifacts.mkdir()
+    for name in ("index.npz", "thumbs.pack", "scale.json"):
+        shutil.copyfile(settings.artifacts_dir / name, artifacts / name)
+    gallery = tmp_path / "gallery"
+    gallery.mkdir()
+    shutil.copyfile(settings.allbands_dir / "Forest_0.tif", gallery / "Forest_0.tif")
+
+    space = Settings(None, None, "space", artifacts, 42)
+    with TestClient(create_app(space, results_dir=root / "results", gallery_dir=gallery)) as browser:
+        assert ok(browser.get("/api/meta"))["dataset"]["gallery_size"] == 1
+        images = ok(browser.get("/api/images?gallery_only=true"))
+        assert [image["id"] for image in images["items"]] == ["Forest_0"]
+        ok(browser.get("/api/images/Forest_0/preview?view=ndvi"))
+        error(browser.get("/api/images/Forest_1/preview?view=ndvi"), 422, "MODE_REQUIRES_MULTISPECTRAL")
 
 
 @pytest.mark.parametrize("mode,download_format", [("band", "png"), ("ms13", "npy")])

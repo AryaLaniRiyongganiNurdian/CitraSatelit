@@ -1,0 +1,117 @@
+{
+  "title": "C4c — Kompleksitas",
+  "description": "Skala waktu CBIR dan scan pencocokan eksak.",
+  "params": {
+    "trials": 1000,
+    "sizes": [
+      100,
+      300,
+      1000,
+      3000,
+      10000,
+      27000
+    ],
+    "seed": 42,
+    "all_queries": false
+  },
+  "dataset": {
+    "n_images": 27000,
+    "n_queries": 50,
+    "note": "EuroSAT lokal"
+  },
+  "tables": [
+    {
+      "columns": [
+        "Database",
+        "ms/query",
+        "Scan empiris",
+        "Scan teori"
+      ],
+      "rows": [
+        [
+          100,
+          0.0479,
+          51.0,
+          50.5
+        ],
+        [
+          300,
+          0.10949,
+          152.814,
+          150.5
+        ],
+        [
+          1000,
+          0.3279,
+          523.739,
+          500.5
+        ],
+        [
+          3000,
+          1.008028,
+          1535.021,
+          1500.5
+        ],
+        [
+          10000,
+          3.49544,
+          5011.022,
+          5000.5
+        ],
+        [
+          27000,
+          9.588654,
+          13292.355,
+          13500.5
+        ]
+      ]
+    },
+    {
+      "columns": [
+        "Kemiringan",
+        "R²"
+      ],
+      "rows": [
+        [
+          0.000355,
+          0.999933
+        ]
+      ]
+    }
+  ],
+  "charts": [
+    {
+      "kind": "line",
+      "title": "Waktu pencarian",
+      "x": [
+        100,
+        300,
+        1000,
+        3000,
+        10000,
+        27000
+      ],
+      "series": [
+        {
+          "name": "ms/query",
+          "y": [
+            0.0479,
+            0.10949,
+            0.3279,
+            1.008028,
+            3.49544,
+            9.588654
+          ]
+        }
+      ]
+    }
+  ],
+  "findings": [
+    "Pada N=27000, rata-rata scan 13292.4 perbandingan; teori 13500.5.",
+    "Regresi waktu memberi kemiringan 0.000355 ms/citra dan R²=0.9999."
+  ],
+  "analysis_md": "Pada N=27000, rata-rata scan 13292.4 perbandingan; teori 13500.5. Regresi waktu memberi kemiringan 0.000355 ms/citra dan R²=0.9999.",
+  "id": "C4c",
+  "generated_at": "2026-11-22T14:41:32.286699+00:00",
+  "runtime_s": 1.001758
+}

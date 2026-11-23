@@ -55,6 +55,10 @@ class State:
         artifacts = settings.artifacts_dir
         manifest = artifacts / "manifest.csv"
         self.manifest = {row["id"]: row for row in read_manifest(manifest)} if manifest.is_file() else {}
+        if settings.app_mode == "space":
+            self.gallery_ids = {path.stem for path in gallery.glob("*.tif") if path.is_file()}
+        else:
+            self.gallery_ids = {key for key, row in self.manifest.items() if row.get("in_gallery") == "True"}
         self.index = {}
         index = artifacts / "index.npz"
         if index.is_file():
@@ -75,11 +79,10 @@ class State:
         if key not in self.positions:
             raise ApiError("IMAGE_NOT_FOUND", "Citra tidak ditemukan.", image_id=key)
         i = self.positions[key]
-        row = self.manifest.get(key, {})
         width, height = self.size
         return dict(id=key, cls=CLASSES[self.index["cls_idx"][i]],
                     split=("train", "test")[self.index["split"][i]], width=width, height=height,
-                    bands=3, has_rgb=True, has_ms=True, in_gallery=row.get("in_gallery") == "True",
+                    bands=3, has_rgb=True, has_ms=True, in_gallery=key in self.gallery_ids,
                     is_upload=False, thumb_url=f"/api/images/{key}/thumb")
 
     def packed(self, key):

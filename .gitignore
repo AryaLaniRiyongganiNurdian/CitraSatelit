@@ -1,13 +1,26 @@
 # Local configuration
 /.env
+/.venv/
 
-# Generated data
-/artifacts/
-/eurosat_subset_v1.zip
-/eurosat_subset_v1.zip.sha256
+# Raw data and local generated files
+/data/
+/datasets/
+/EuroSAT*/
+/artifacts/*
+!/artifacts/index.npz
+!/artifacts/thumbs.pack
+!/artifacts/scale.json
+/eurosat_subset_v1.zip*
 /.colab-cache/
 .ipynb_checkpoints/
-/results/
+/results/*
+!/results/C1.json
+!/results/C2.json
+!/results/C3.json
+!/results/C4a.json
+!/results/C4b.json
+!/results/C4c.json
+!/results/eval_cache.json
 
 # Python caches
 __pycache__/
@@ -17,5 +30,10 @@ __pycache__/
 /frontend/node_modules/
 /frontend/dist/
 
-# Local gallery assets (Git LFS planned in M10)
-/app_assets/
+# Only the production gallery may be tracked via Git LFS.
+/app_assets/*
+!/app_assets/gallery/
+/app_assets/gallery/**/*
+!/app_assets/gallery/**/
+!/app_assets/gallery/**/*.jpg
+!/app_assets/gallery/**/*.tif
