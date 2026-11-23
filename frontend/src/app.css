@@ -1,4 +1,11 @@
 #root { min-height: 100vh; }
+.route-loading { min-height: 55vh; padding-block: 42px; }
+.route-loading-grid { display: grid; gap: 16px; }
+.route-loading-title { height: clamp(54px, 9vw, 112px); width: min(64%, 620px); }
+.route-loading-copy { height: 16px; width: min(80%, 425px); }
+.route-loading-panel { height: clamp(140px, 25vw, 280px); border: var(--hairline) solid var(--border); }
+.application-card a:focus-visible { position: relative; z-index: 2; outline-offset: -4px; }
+.application-blue a:focus-visible, .application-image a:focus-visible { outline-color: var(--ink-inverse); }
 .wrap { width: min(100%, 1600px); margin-inline: auto; padding-inline: var(--gutter); }
 .mono { font: 400 var(--label-size)/var(--label-leading) var(--font-label); text-transform: uppercase; }
 .dim { color: var(--muted-foreground); }

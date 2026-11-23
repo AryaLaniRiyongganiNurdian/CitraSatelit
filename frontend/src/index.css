@@ -42,7 +42,7 @@
   --ink-inverse: #ffffff;
   --cobalt: #1818ff;
   --line: #cfd1cb;
-  --workbench: #111;
+  --workbench: var(--ink);
   --workbench-panel: #1c201e;
   --workbench-line: #373b39;
   --workbench-line-emphasis: #676c68;

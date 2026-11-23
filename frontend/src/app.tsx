@@ -82,13 +82,25 @@ function ScrollToRoute() {
   return null;
 }
 
+function RouteLoading({ home }: { home: boolean }) {
+  return <section className={home ? "route-loading" : "workbench route-loading"}
+    role="status" aria-label="Memuat halaman">
+    <div className="wrap route-loading-grid">
+      <Skeleton className="route-loading-title" />
+      <Skeleton className="route-loading-copy" />
+      <Skeleton className="route-loading-panel" />
+    </div>
+  </section>;
+}
+
 export function App() {
+  const { pathname } = useLocation();
   return (
     <>
       <ScrollToRoute />
       <Header />
       <main id="main" tabIndex={-1}>
-        <Suspense fallback={<Skeleton className="min-h-48" role="status" aria-label="Memuat ruang kerja" />}>
+        <Suspense fallback={<RouteLoading home={pathname === "/"} />}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/cbir" element={<CbirPage />} />

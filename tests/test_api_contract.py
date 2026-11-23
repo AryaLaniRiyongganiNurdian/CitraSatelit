@@ -18,6 +18,20 @@ def test_contract_examples_validate_with_pydantic():
         model.model_validate(example)
 
 
+def test_openapi_export_matches_backend_and_declares_boolean_laws():
+    exported = json.loads((DOCS / "openapi.json").read_text(encoding="utf-8"))
+    assert exported == create_app().openapi()
+
+    laws = exported["paths"]["/api/boolean/laws"]["get"]
+    schema = laws["responses"]["200"]["content"]["application/json"]["schema"]
+    assert schema["type"] == "array"
+    assert schema["items"]["$ref"] == "#/components/schemas/BooleanLaw"
+    assert set(exported["components"]["schemas"]["BooleanLaw"]["required"]) == {"lhs", "rhs", "steps"}
+
+    contract = (DOCS / "api-contract.md").read_text(encoding="utf-8")
+    assert "| `GET /boolean/laws` | - | `BooleanLaw[]` | - |" in contract
+
+
 def test_documented_responses_are_declared_and_ts_files_exact():
     contract = (DOCS / "api-contract.md").read_text(encoding="utf-8")
     openapi = create_app().openapi()

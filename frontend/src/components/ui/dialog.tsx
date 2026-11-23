@@ -61,10 +61,9 @@ function DialogContent({
         {showCloseButton && (
           <DialogPrimitive.Close
             data-slot="dialog-close"
-
+            aria-label="Tutup dialog"
           >
-            <XIcon />
-            <span className="sr-only">Tutup</span>
+            <XIcon aria-hidden="true" />
           </DialogPrimitive.Close>
         )}
       </DialogPrimitive.Content>
