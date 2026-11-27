@@ -9,7 +9,7 @@ Versi: 1.0 | Seed global: 42 | Bahasa UI: Indonesia | Identifier kode: Inggris
 |---|---|---|
 | Program berjalan dan benar | 25% | `src/core` murni NumPy, TDD dengan vektor uji dari slide dosen, Colab Run All, web app live |
 | Percobaan dan analisis | 20% | C1, C2, C3, C4a, C4b, C4c (6 percobaan, minimal 3), analisis otomatis di `results/*.json` |
-| Laporan, presentasi, tanya jawab, kontribusi | 55% | Math & Proof Inspector, Lampiran A (tanya jawab), Lampiran B (skrip demo), `AI_USAGE_LOG.md` |
+| Laporan, presentasi, tanya jawab, kontribusi | 55% | Math & Proof Inspector, Lampiran A (tanya jawab), Lampiran B (skrip demo) |
 
 ## 1. Keputusan final
 
@@ -188,17 +188,17 @@ Setiap percobaan menulis `ExperimentResult` (lihat `api-contract.md`) dengan `fi
 
 ## 8. Colab
 
-`DATASET_MODE="colab_instant"`: unduh `eurosat_subset_v1.zip` (2.000 JPG + 2.000 TIF, sekitar 170 MB) dari rilis publik tanpa API key. URL utama Hugging Face dataset repo milik Anda (`https://huggingface.co/datasets/<USER>/<REPO>/resolve/main/eurosat_subset_v1.zip`), cermin GitHub Release. Verifikasi `SHA256SUMS`, cache di `/content/data`. Dibuat sekali oleh `tools/make_colab_subset.py` (manual: Anda mengunggahnya, langkah M0).
+Mode bawaan `colab_instant` mengunduh `eurosat_subset_v1.zip` dan berkas `.sha256` dari GitHub Releases `v1.0`. Notebook mencocokkan SHA-256 arsip dan memverifikasi `SHA256SUMS` untuk berkas di dalam ZIP. Cache Colab berada di `/content/data`. Pengemas `tools/make_colab_subset.py` menghasilkan 2.000 pasangan JPG dan TIFF beserta artefak subset. [GitHub Releases v1.0](https://github.com/AryaLaniRiyongganiNurdian/CitraSatelit/releases/tag/v1.0)
+
 `DATASET_MODE="full_local"`: baca `EUROSAT_RGB_DIR` dan `EUROSAT_ALLBANDS_DIR` dari `.env`.
 
-Struktur notebook (dibangkitkan `tools/build_notebook.py` dari `src/core`):
-1. Judul dan tujuan; 2. Setup dan sakelar mode; 3. Kode inti (sel hasil bangkitan); 4. Data dan manifest; 5. Demo histogram dan momen satu citra; 6. CBIR dan Precision@5; 7. Teorema Bayes; 8. Secret sharing XOR (n>=3); 9. Aljabar Boolean dan K-Map; 10. Percobaan C1..C4c (ukuran subset); 11. Analisis; 12. Kesimpulan; 13. Catatan transparansi AI.
+`tools/build_notebook.py` menanamkan modul sumber dan menyusun demo histogram, momen, spektrum, CBIR, Bayes, pembagian rahasia XOR, serta aljabar Boolean dan K-Map. Bagian terakhir menjalankan dan menganalisis percobaan C1–C4c.
 
-## 9. Deploy Hugging Face Spaces (Docker)
+## 9. Deployment Azure Container Apps
 
-- Dockerfile multi-stage: tahap Node membangun `frontend/dist`, tahap Python slim menjalankan `uvicorn src.api.main:app --host 0.0.0.0 --port 7860`. `README.md` Space berisi `sdk: docker`, `app_port: 7860`.
+- Tahap Node membangun `frontend/dist`. Tahap Python menjalankan `uvicorn src.api.main:app --host 0.0.0.0 --port 7860`. Azure Container Apps menggunakan region `Indonesia Central` dan port target `7860`.
 - `APP_MODE=space`: membaca `artifacts/` dan `app_assets/`. `APP_MODE=dev`: membaca dataset dari `.env`. CORS hanya untuk `http://localhost:5173` pada mode dev.
-- File besar lewat Git LFS.
+- GitHub Actions membangun image Docker dan menerbitkan `ghcr.io/aryalaniriyongganinurdian/citrasatelit:latest`. Build mengambil indeks, paket thumbnail, dan galeri dari `space_assets_v1.tar.gz` pada GitHub Releases `v1.0`. [Workflow penerbitan](../../.github/workflows/publish-image.yml)
 
 ## 10. Non-fungsional
 

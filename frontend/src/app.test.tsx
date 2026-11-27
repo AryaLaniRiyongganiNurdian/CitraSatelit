@@ -1,6 +1,6 @@
 import { render, screen, within, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { App } from "./app";
 import { AppProviders } from "./contexts";
 import type { ExperimentResult, ExperimentSummary, ImageMeta, KMapResponse } from "./types/api";
@@ -49,6 +49,16 @@ beforeEach(() => { vi.spyOn(window, "scrollTo").mockImplementation(() => undefin
 afterEach(() => { vi.restoreAllMocks(); vi.unstubAllGlobals(); });
 
 describe("Beranda dan navigasi", () => {
+  beforeAll(async () => {
+    // Keep the page assertions independent of the first Vite module transform.
+    await Promise.all([
+      import("./pages/home"),
+      import("./pages/boolean"),
+      import("./pages/experiments"),
+      import("./pages/inspector"),
+    ]);
+  });
+
   it("menampilkan enam rute serta metrik dari meta dan hasil C2", async () => {
     const fetchMock = mockApi();
     app();

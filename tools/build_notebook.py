@@ -40,10 +40,15 @@ Enam percobaan di bagian akhir memakai protokol serta modul yang sama dengan apl
     md("petunjuk-setup", """
 ## 1. Setup dan pilihan data
 
-Pilih **Jalankan semua** setelah menyediakan arsip. Untuk Colab, unggah **eurosat_subset_v1.zip** ke **/content**, atau isi
-**COLAB_SUBSET_URL** dengan URL rilis Hugging Face dan **COLAB_SUBSET_MIRROR** dengan cermin GitHub Releases.
-Simpan **.sha256** di samping arsip rilis, atau isi **COLAB_SUBSET_SHA256** dengan hash yang sudah diketahui.
-Mode **colab_instant** memakai 1.600 citra latih dan 400 citra uji.
+Pilih **Jalankan semua** di Google Colab. Mode bawaan **colab_instant** memakai 1.600 citra latih dan 400 citra uji.
+Notebook mengambil **eurosat_subset_v1.zip.sha256** dan **eurosat_subset_v1.zip** dari
+[GitHub Releases v1.0](https://github.com/AryaLaniRiyongganiNurdian/CitraSatelit/releases/tag/v1.0).
+SHA-256 arsip diperiksa sebelum ekstraksi, lalu setiap berkas dataset diperiksa terhadap **SHA256SUMS**.
+Unduhan dan dataset hasil ekstraksi disimpan di **/content/data**.
+
+Untuk arsip lokal, unggah ZIP dan berkas **.sha256** ke **/content**, atau atur **COLAB_ARCHIVE** ke lokasi ZIP.
+**COLAB_SUBSET_URL** dapat diubah, **COLAB_SUBSET_MIRROR** menyediakan URL cadangan, dan **COLAB_SUBSET_SHA256**
+menerima hash arsip yang sudah diketahui.
 Mode **full_local** membaca direktori EuroSAT dan indeks yang telah dibangun melalui konfigurasi proyek.
 **REPO_URL** opsional untuk mengkloning repositori. Sumber yang tertanam digunakan jika URL kosong.
 """)
@@ -56,7 +61,10 @@ from tempfile import TemporaryDirectory
 
 DATASET_MODE = os.getenv("DATASET_MODE", "colab_instant")
 REPO_URL = os.getenv("CITRASATELIT_REPO_URL", "")
-COLAB_SUBSET_URL = os.getenv("COLAB_SUBSET_URL", "")
+COLAB_SUBSET_URL = os.getenv(
+    "COLAB_SUBSET_URL",
+    "https://github.com/AryaLaniRiyongganiNurdian/CitraSatelit/releases/download/v1.0/eurosat_subset_v1.zip",
+)
 COLAB_SUBSET_MIRROR = os.getenv("COLAB_SUBSET_MIRROR", "")
 COLAB_SUBSET_SHA256 = os.getenv("COLAB_SUBSET_SHA256", "")
 COLAB_ARCHIVE = os.getenv("COLAB_ARCHIVE", "")
@@ -175,7 +183,7 @@ assert np.isclose(evidence, 0.08) and np.isclose(posterior[0], 0.75)
 assert np.isclose(probability.cond_prob(0.06, 0.08), 0.75)
 gateway, probability_error = probability.bayes_posterior([0.70, 0.30], [0.02, 0.08])
 assert np.isclose(probability_error, 0.038) and np.isclose(gateway[1], 0.024 / 0.038)
-print("P(T) =", evidence, "· P(TL | T) =", posterior[0], "· P(Y | E) =", gateway[1])
+print("P(TL) =", evidence, "· P(T | TL) =", posterior[0], "· P(Y | E) =", gateway[1])
 """)
     md("sharing", "## 7. Tiga share XOR\nGabungkan semua share untuk memulihkan citra. Paritas XOR juga dapat memulihkan satu blok yang hilang.")
     code("verify-sharing", """
@@ -273,9 +281,6 @@ print("Hasil lengkap:", output)
 ## 11. Kesimpulan
 Bandingkan metode pada split yang sama sebelum menarik kesimpulan tentang kemiripan.
 Semua share diperlukan untuk rekonstruksi identik. Peta Karnaugh menunjukkan bagaimana fungsi Boolean disederhanakan.
-
-## 12. Transparansi AI
-Pembangunan notebook, verifikasi, dan hasil pengukuran dicatat di **AI_USAGE_LOG.md** pada repositori proyek.
 """)
     notebook = {"cells": cells, "metadata": {"kernelspec": {"display_name": "Python 3", "language": "python", "name": "python3"},
                                              "language_info": {"name": "python"}}, "nbformat": 4, "nbformat_minor": 5}

@@ -1,7 +1,7 @@
 # Frontend Handoff
 
-Frontend: React + Vite + TypeScript + Tailwind + shadcn/ui, dikerjakan Codex.
-Otoritas: Figma di `docs/design` untuk tata letak, warna, dan tipografi. `docs/api-contract.md` dan `src/types/api.ts` untuk data. Bila Figma meminta data yang tidak ada di kontrak, jangan mengarang field: catat di `docs/frontend-gaps.md` dan tampilkan placeholder.
+Frontend menggunakan React, Vite, TypeScript, Tailwind, dan shadcn/ui.
+Gunakan frame Figma sebagai acuan tata letak, warna, dan tipografi. Bentuk data mengikuti [kontrak API](api-contract.md) dan [tipe TypeScript](../frontend/src/types/api.ts). Catat data yang belum tersedia di [catatan frontend](frontend-gaps.md) dan tampilkan placeholder yang sesuai.
 
 ## Tumpukan dan konvensi
 - Pustaka tambahan: `@tanstack/react-query`, `react-router-dom`, `recharts`, `katex` (+ `react-katex` atau komponen sendiri), `lucide-react`, `sonner` (untuk seluruh toast notifikasi), dan `[Magic UI / Aceternity UI]` (khusus untuk efek animasi yang ditentukan pada prompt Figma).

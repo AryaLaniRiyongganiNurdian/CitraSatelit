@@ -41,7 +41,8 @@ const steps = [
   { title: "Periksa hasil", copy: "Baca rumus, telusuri langkah hitung, dan bandingkan hasil percobaan.", path: "/inspector" },
 ] as const;
 
-const colabUrl = import.meta.env.VITE_COLAB_NOTEBOOK_URL || "https://colab.research.google.com/";
+const colabUrl = import.meta.env.VITE_COLAB_NOTEBOOK_URL
+  || "https://colab.research.google.com/github/AryaLaniRiyongganiNurdian/CitraSatelit/blob/main/notebooks/citrasatelit.ipynb";
 
 function Banner() {
   return <figure className="earth-banner wrap" aria-label="Citra dari orbit">

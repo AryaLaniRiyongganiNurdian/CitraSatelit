@@ -3,7 +3,7 @@
 ## M0 (ditutup 2026-11-22)
 
 - Manifest melewati file yang namanya di luar pola ID EuroSAT dan melaporkan jumlah serta contoh nama file. Dataset lokal memiliki 597 TIFF tambahan di folder `SeaLake` (85 `Bombay_` dan 512 `Jakarta_`).
-- `tools/make_colab_subset.py` selesai pada M9 (2026-11-23). Arsip lokal memuat 2.000 pasangan, manifest subset, indeks, skala dari split latih, paket thumbnail, dan SHA-256. Publikasi ZIP dan berkas `.sha256` mengikuti langkah manual rilis.
+- `tools/make_colab_subset.py` selesai pada M9 (2026-11-23). Arsip memuat 2.000 pasangan, manifest subset, indeks, skala dari split latih, dan paket thumbnail. ZIP dan berkas `.sha256` tersedia di [GitHub Releases v1.0](https://github.com/AryaLaniRiyongganiNurdian/CitraSatelit/releases/tag/v1.0).
 
 ## M1 (ditutup 2026-11-22) - Input vektor Bayes dari slide
 
@@ -28,7 +28,7 @@ Kedua vektor dari slide sudah diaktifkan di `tests/test_probability.py`.
 - C4a membandingkan semua mode termasuk `mle`. Mode PMF memakai chi-square dan Euclidean, sedangkan mode momen memakai Euclidean.
 - C4b memakai histogram RGB 32 bin dengan chi-square untuk P@5 share parsial.
 
-## M7 (ditutup 2026-11-22) - Akses TIFF mentah di mode Space
+## M7 (ditutup 2026-11-22) - Akses TIFF mentah pada deployment
 
 Citra indeks tanpa TIFF galeri tetap dapat dicari dan memakai fitur yang sudah dihitung. Endpoint yang memerlukan piksel TIFF mentah mengembalikan `MODE_REQUIRES_MULTISPECTRAL` saat piksel tersebut tidak tersedia.
 

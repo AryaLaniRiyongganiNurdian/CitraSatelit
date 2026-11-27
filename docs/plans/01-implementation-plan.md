@@ -1,19 +1,20 @@
 # 01 - Implementation Plan (Strict TDD)
 
-Aturan kerja untuk Codex:
+Prinsip pengujian proyek
+
 1. Tulis test dulu (merah), baru implementasi (hijau), refactor kecil. Satu milestone = satu cabang/commit berurutan.
 2. Jangan menebak. Jika spesifikasi di `00-design-spec.md` atau `docs/api-contract.md` ambigu, hentikan dan tulis pertanyaan di `docs/open-questions.md`.
 3. `src/core` tidak boleh impor pustaka terlarang (dijaga `tests/test_core_purity.py`).
 4. Referensi `scipy`, `sklearn`, `cv2`, `colorsys` hanya di `tests/`.
-5. Jalankan `pytest -q` sebelum menyatakan selesai. Catat pemakaian AI di `AI_USAGE_LOG.md`.
+5. Jalankan `pytest -q` sebelum menyatakan selesai.
 
 Perintah standar: `pytest -q`, `pytest -q tests/test_<modul>.py`, `uvicorn src.api.main:app --reload --port 8000`, `npm run dev` (di `frontend/`).
 
 ## M0 - Scaffold dan data tooling
-Berkas: `pyproject.toml`/`requirements.txt` (numpy, pillow, tifffile, fastapi, uvicorn, pydantic, python-multipart, matplotlib, seaborn, python-dotenv), `requirements-dev.txt` (pytest, scipy, scikit-learn, opencv-python-headless, httpx, nbformat), `.env.example` (`EUROSAT_RGB_DIR`, `EUROSAT_ALLBANDS_DIR`, `APP_MODE`, `ARTIFACTS_DIR`, `SEED=42`), `AI_USAGE_LOG.md`, `src/data/{env,loader,manifest}.py`, `tools/{build_index,make_gallery,make_colab_subset,build_notebook}.py` (kerangka).
+Berkas scaffold meliputi `pyproject.toml`, `requirements.txt`, `requirements-dev.txt`, `.env.example`, `src/data/{env,loader,manifest}.py`, dan kerangka `tools/{build_index,make_gallery,make_colab_subset,build_notebook}.py`.
 Test: `test_core_purity.py`; `test_manifest.py` (split 80/20 per kelas, deterministik, ID identik lintas modalitas, jumlah `in_gallery`=25/kelas, `in_colab_subset`=200/kelas); `test_loader.py` (tif dinormalkan ke `(64,64,13)` `uint16`, jpg ke `(64,64,3)` `uint8`, memakai file fixture kecil).
 Selesai bila: `pytest` hijau, `manifest.csv` terbentuk dari dataset lokal, laporan ID tak sinkron tercetak.
-Langkah manual Anda: unggah `eurosat_subset_v1.zip` setelah `make_colab_subset.py` dijalankan.
+Pengemas `make_colab_subset.py` menyediakan `eurosat_subset_v1.zip` dan `.sha256` untuk GitHub Releases.
 
 ## M1 - `stats.py` dan `probability.py`
 Test (vektor dari slide, toleransi 1e-9 kecuali disebut):
@@ -54,7 +55,7 @@ Test (`httpx`/`TestClient`, indeks fixture kecil): setiap endpoint di `docs/api-
 Selesai bila: `pytest` hijau dan `/docs` OpenAPI tampil.
 
 ## M8 - Frontend (React + Figma)
-Ikuti `docs/frontend-handoff.md` dan desain Figma di `docs/design/` (atau frame Figma terhubung).
+Gunakan frame Figma dan [panduan frontend](../frontend-handoff.md) sebagai acuan.
 Kerjakan secara bertahap agar fidelitas Figma terjaga:
 - **M8.1 (Setup & Design Tokens):** Inisialisasi Vite + React + TS + Tailwind + `shadcn/ui` + `sonner` + `[Magic UI / Aceternity UI]`. Override styling default `shadcn/ui` dengan token desain Figma (Font, Border Radius, Brand Colors di `index.css` / `tailwind.config`). Bangun App Shell, navigasi 6 rute, dan halaman Beranda.
 - **M8.2 (Core Interactive Pages):** Bangun `/cbir` dan `/sharing` per section mengikuti tangkapan layar Figma dan endpoint di `docs/api-contract.md`.
@@ -66,13 +67,6 @@ Test & Selesai bila: `vitest` hijau untuk util dan komponen Inspector; `tsc --no
 ## M9 - Notebook Colab
 `tools/build_notebook.py` merakit sel dari `src/core/*.py` dan kerangka narasi. Test: `test_notebook_build.py` (JSON valid via `nbformat`, tidak ada impor terlarang pada sel kode inti, kedua nilai `DATASET_MODE` tersedia). Uji manual: Run All di Colab pada mode `colab_instant` tanpa error, waktu total di bawah 15 menit.
 
-## M10 - Docker dan Hugging Face
-`Dockerfile`, `.dockerignore`, `README.md` Space, uji `docker build` dan jalan lokal di `localhost:7860`, uji performa di Design Spec bagian 10, pengecekan ukuran repo dan LFS. Daftar periksa akhir: semua test hijau, `AI_USAGE_LOG.md` terisi, tautan Space dan notebook di laporan.
+## M10 - Docker dan Azure Container Apps
 
-## Prompt siap tempel untuk Codex (per milestone)
-```
-Baca docs/plans/00-design-spec.md dan docs/plans/01-implementation-plan.md. Kerjakan milestone <Mx> saja.
-Tulis test dulu, tunjukkan merah, lalu implementasi sampai hijau. Jangan mengubah kontrak.
-Jika ada ambiguitas, tulis di docs/open-questions.md dan berhenti pada bagian itu.
-Akhiri dengan ringkasan: file dibuat, hasil pytest, hal yang perlu keputusan saya.
-```
+`Dockerfile` menjalankan aplikasi pada port `7860`, baik untuk pengujian lokal maupun Azure Container Apps. Workflow GitHub Actions menerbitkan image ke GHCR dengan aset dari GitHub Releases `v1.0`. Panduan menjalankan, menguji, dan membuka aplikasi serta notebook tersedia di [README](../../README.md).
