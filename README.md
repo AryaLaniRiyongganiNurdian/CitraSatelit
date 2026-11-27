@@ -1,4 +1,4 @@
-<p align="center"><img width="640" alt="Banner CitraSatelit" src="PLACEHOLDER_BANNER_URL"></p>
+<p align="center"><img width="640" alt="Banner CitraSatelit" src="https://github.com/user-attachments/assets/ae69e584-e9ae-40be-922c-e0b16324f7a2"></p>
 <h1 align="center">CitraSatelit</h1>
 <p align="center">Laboratorium interaktif EuroSAT untuk pencarian citra berbasis konten, analisis multispektral, dan berbagi rahasia XOR.</p>
 <p align="center"><a href="https://citrasatelit.blueisland-248683e9.indonesiacentral.azurecontainerapps.io">Aplikasi Web Azure</a> · <a href="https://colab.research.google.com/github/AryaLaniRiyongganiNurdian/CitraSatelit/blob/main/notebooks/citrasatelit.ipynb">Google Colab</a></p>
